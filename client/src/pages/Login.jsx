@@ -18,6 +18,7 @@ import {
   Loader2,
   FileCheck
 } from 'lucide-react';
+import { API_BASE_URL } from '../services/adminApi';
 import './AuthModal.css';
 
 export const Login = () => {
@@ -62,7 +63,7 @@ export const Login = () => {
     setSubmitting(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/admin/customer/send-otp', {
+      const res = await fetch(`${API_BASE_URL}/admin/customer/send-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, phone })
@@ -89,7 +90,7 @@ export const Login = () => {
     setSubmitting(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/admin/customer/verify-otp', {
+      const res = await fetch(`${API_BASE_URL}/admin/customer/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otpCode })
@@ -123,7 +124,7 @@ export const Login = () => {
     if (role === 'Advocate') {
       setSubmitting(true);
       try {
-        const res = await fetch('http://localhost:5000/api/admin/advocate/login', {
+        const res = await fetch(`${API_BASE_URL}/admin/advocate/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })

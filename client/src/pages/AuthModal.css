@@ -1,0 +1,335 @@
+/* DARK PORTAL AUTH (LOGIN & SIGN UP) MODAL STYLES */
+
+.dark-portal-auth-page {
+  min-height: calc(100vh - 80px);
+  background-color: #040911;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4.5rem 1.5rem 5.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient Center Gold & Navy Glow */
+.portal-auth-glow-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle, 
+    rgba(212, 175, 55, 0.12) 0%, 
+    rgba(11, 45, 82, 0.3) 40%, 
+    transparent 70%
+  );
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Central Card */
+.portal-auth-card {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 520px;
+  background: #091322;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 20px;
+  padding: 3rem 2.8rem;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.7),
+    0 0 30px rgba(212, 175, 55, 0.12);
+}
+
+/* Top bar with Logo & Secured Badge */
+.portal-auth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.portal-logo-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.portal-logo-wrap .logo-img {
+  height: 62px;
+  width: auto;
+  object-fit: contain;
+  transform: scale(1.26);
+  transform-origin: left center;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+  transition: transform 0.25s ease;
+}
+
+.portal-logo-wrap:hover .logo-img {
+  transform: scale(1.32);
+}
+
+.portal-jwt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: #ebd37d;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+.badge-lock-icon {
+  color: #D4AF37;
+}
+
+/* Headings */
+.portal-auth-heading {
+  font-family: var(--font-sans);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.45rem;
+  letter-spacing: -0.02em;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #ebd37d 0%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.portal-auth-subheading {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-bottom: 2rem;
+  line-height: 1.55;
+}
+
+/* Role Tabs */
+.portal-role-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #040911;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 2rem;
+}
+
+.portal-role-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.5rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #94a3b8;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.portal-role-tab:hover {
+  color: #ffffff;
+}
+
+.portal-role-tab.active {
+  background: linear-gradient(135deg, #e2c053 0%, #D4AF37 100%);
+  color: #051426;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+}
+
+/* Form Groups & Inputs */
+.portal-auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.portal-form-group {
+  margin-bottom: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.portal-form-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.portal-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.demo-hint-text {
+  font-size: 0.76rem;
+  color: #94a3b8;
+  font-family: monospace;
+}
+
+.portal-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.portal-field-icon {
+  position: absolute;
+  left: 14px;
+  color: #64748b;
+  pointer-events: none;
+}
+
+.portal-input-field {
+  width: 100%;
+  background: #050c18;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 0.85rem 1rem 0.85rem 2.8rem;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.94rem;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.portal-input-field:focus {
+  border-color: #D4AF37;
+  background: #071324;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.portal-toggle-pwd {
+  position: absolute;
+  right: 14px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  border: none;
+  padding: 4px;
+}
+
+.portal-toggle-pwd:hover {
+  color: #D4AF37;
+}
+
+/* Gold Action Button */
+.portal-submit-btn {
+  background: linear-gradient(135deg, #e2c053 0%, #D4AF37 100%);
+  color: #051426;
+  border: none;
+  padding: 0.95rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+  transition: all 0.25s ease;
+  margin-top: 0.6rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.portal-submit-btn:hover {
+  background: linear-gradient(135deg, #ebd37d 0%, #e2c053 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.45);
+}
+
+/* Footer Links */
+.portal-auth-footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.portal-return-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.portal-return-link:hover {
+  color: #cbd5e1;
+}
+
+.portal-switch-signup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.gold-link {
+  color: #D4AF37;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.gold-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 580px) {
+  .portal-auth-card {
+    padding: 2rem 1.25rem;
+  }
+
+  .portal-auth-heading {
+    font-size: 1.75rem;
+  }
+
+  .portal-role-tabs {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 3px;
+    padding: 3px;
+  }
+
+  .portal-role-tab {
+    padding: 0.55rem 0.25rem;
+    font-size: 0.76rem;
+    gap: 0.3rem;
+  }
+
+  .portal-role-tab svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .portal-role-tab {
+    font-size: 0.72rem;
+    padding: 0.5rem 0.15rem;
+  }
+}

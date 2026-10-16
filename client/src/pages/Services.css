@@ -1,0 +1,765 @@
+/* OUR SERVICES PAGE STYLES - PROPERTY SURAKSHA */
+
+.services-page {
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================
+   1. HERO SECTION
+   ========================================= */
+.services-hero-section {
+  position: relative;
+  background-color: #051426;
+  color: #ffffff;
+  padding: 5rem 0 4rem;
+  overflow: hidden;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+}
+
+.services-hero-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.services-hero-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  opacity: 0.95;
+  filter: brightness(1.05) contrast(1.1) saturate(1.1);
+  transition: opacity 0.3s ease;
+}
+
+.services-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg, 
+    #051426 0%, 
+    rgba(5, 20, 38, 0.95) 32%, 
+    rgba(11, 45, 82, 0.7) 50%, 
+    rgba(11, 45, 82, 0.22) 75%,
+    rgba(5, 20, 38, 0.08) 100%
+  );
+  z-index: 2;
+}
+
+.services-hero-container {
+  position: relative;
+  z-index: 5;
+}
+
+.services-hero-content {
+  max-width: 650px;
+}
+
+.services-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0.8rem 0 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.services-hero-desc {
+  font-size: 1.08rem;
+  line-height: 1.65;
+  color: #cbd5e1;
+  margin-bottom: 2rem;
+}
+
+.services-hero-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.services-section-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #0B2D52;
+  margin: 0.35rem 0 0.6rem;
+  letter-spacing: -0.02em;
+}
+
+.services-section-sub {
+  font-size: 1.02rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* =========================================
+   2. EXPLORE OUR SERVICES (Visual Cards)
+   ========================================= */
+.services-explore-section {
+  padding: 4rem 0;
+  background: #ffffff;
+}
+
+.services-explore-section .section-header {
+  margin-bottom: 2rem;
+}
+
+.services-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.service-visual-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+}
+
+.service-visual-card:hover {
+  transform: translateY(-6px);
+  border-color: #D4AF37;
+  box-shadow: 0 16px 36px rgba(11, 45, 82, 0.1);
+}
+
+.service-visual-img-wrap {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  overflow: hidden;
+  background: #0B2D52;
+}
+
+.service-visual-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.service-visual-card:hover .service-visual-img {
+  transform: scale(1.05);
+}
+
+.service-card-num-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(11, 45, 82, 0.85);
+  backdrop-filter: blur(8px);
+  color: #D4AF37;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.service-visual-body {
+  padding: 2rem 1.6rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.service-visual-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0B2D52;
+  margin-bottom: 0.65rem;
+  line-height: 1.3;
+}
+
+.service-visual-desc {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.55;
+  margin-bottom: 1.4rem;
+}
+
+.service-points-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+.service-points-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.86rem;
+  color: #334155;
+  font-weight: 500;
+}
+
+.point-check-icon {
+  color: #16a34a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.service-card-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(11, 45, 82, 0.05);
+  color: #0B2D52;
+  border: 1.5px solid rgba(11, 45, 82, 0.2);
+  padding: 0.75rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.service-card-action-btn:hover {
+  background: #0B2D52;
+  color: #ffffff;
+  border-color: #0B2D52;
+}
+
+.scope-notice-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: #fffdf5;
+  border: 1px solid #fef3c7;
+  border-left: 4px solid #D4AF37;
+  padding: 1rem 1.4rem;
+  border-radius: 8px;
+  margin-top: 3rem;
+  font-size: 0.88rem;
+  color: #92400e;
+}
+
+.scope-notice-icon {
+  color: #d97706;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   3. WHAT IS INCLUDED
+   ========================================= */
+.included-section {
+  padding: 5.5rem 0;
+  background: #f8fafc;
+}
+
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.included-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2.2rem 1.6rem;
+  transition: all 0.25s ease;
+}
+
+.included-card:hover {
+  transform: translateY(-5px);
+  border-color: #D4AF37;
+  box-shadow: 0 12px 26px rgba(11, 45, 82, 0.06);
+}
+
+.included-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #fffdf5;
+  border: 1px solid #fef3c7;
+  color: #D4AF37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.3rem;
+}
+
+.included-title {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: #0B2D52;
+  margin-bottom: 0.55rem;
+}
+
+.included-desc {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* =========================================
+   4. HOW OUR SERVICE WORKS (5 Steps)
+   ========================================= */
+.service-steps-section {
+  padding: 5.5rem 0;
+  background: #ffffff;
+}
+
+.service-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+
+.service-step-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.8rem 1.2rem;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+.service-step-item:hover {
+  background: #ffffff;
+  border-color: #D4AF37;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(11, 45, 82, 0.06);
+}
+
+.service-step-number {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #D4AF37;
+  color: #051426;
+  font-weight: 800;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.2rem;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.service-step-item h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0B2D52;
+  margin-bottom: 0.45rem;
+}
+
+.service-step-item p {
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* =========================================
+   5. TRANSPARENT PRICING BANNER
+   ========================================= */
+.pricing-info-section {
+  padding: 4.5rem 0;
+  background: #f8fafc;
+}
+
+.pricing-card-banner {
+  background: linear-gradient(135deg, #071930 0%, #0B2D52 100%);
+  border-radius: 16px;
+  padding: 3.5rem 3rem;
+  color: #ffffff;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 18px 45px rgba(11, 45, 82, 0.12);
+}
+
+.pricing-header {
+  max-width: 760px;
+  margin-bottom: 2.5rem;
+}
+
+.pricing-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0.5rem 0 0.8rem;
+  line-height: 1.25;
+}
+
+.pricing-desc {
+  font-size: 1.02rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.pricing-steps-checklist {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.pricing-step-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.6rem 1.4rem;
+  border-radius: 12px;
+}
+
+.pricing-step-badge {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.2);
+  color: #ebd37d;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+}
+
+.pricing-step-box h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.4rem;
+}
+
+.pricing-step-box p {
+  font-size: 0.86rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.pricing-footer-disclaimer {
+  font-size: 0.84rem;
+  color: #94a3b8;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.4rem;
+}
+
+/* =========================================
+   6. WHY CHOOSE PROPERTY SURAKSHA
+   ========================================= */
+.why-services-section {
+  padding: 5.5rem 0;
+  background: #ffffff;
+}
+
+.why-services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.why-svc-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  transition: all 0.25s ease;
+}
+
+.why-svc-card:hover {
+  transform: translateY(-4px);
+  border-color: #D4AF37;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(11, 45, 82, 0.06);
+}
+
+.why-svc-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: rgba(11, 45, 82, 0.06);
+  color: #0B2D52;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
+.why-svc-card h4 {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #0B2D52;
+  margin-bottom: 0.5rem;
+}
+
+.why-svc-card p {
+  font-size: 0.86rem;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* =========================================
+   7. FAQS SECTION
+   ========================================= */
+.services-faq-section {
+  padding: 5.5rem 0;
+  background: #f8fafc;
+}
+
+.services-faq-list {
+  max-width: 860px;
+  margin: 3rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.services-faq-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1.4rem 1.6rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.services-faq-item:hover {
+  border-color: #cbd5e1;
+}
+
+.services-faq-item.open {
+  border-color: #D4AF37;
+  box-shadow: 0 6px 18px rgba(11, 45, 82, 0.05);
+}
+
+.services-faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0B2D52;
+}
+
+.services-faq-a {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.services-faq-a p {
+  font-size: 0.92rem;
+  color: #475569;
+  line-height: 1.65;
+}
+
+/* =========================================
+   8. FINAL CTA & DISCLAIMER STRIP
+   ========================================= */
+.services-cta-section {
+  padding: 3rem 0 4rem;
+  background: #f8fafc;
+}
+
+.services-cta-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 18px 45px rgba(11, 45, 82, 0.15);
+}
+
+.services-cta-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  z-index: 1;
+}
+
+.services-cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg, 
+    rgba(5, 20, 38, 0.96) 0%, 
+    rgba(11, 45, 82, 0.92) 50%, 
+    rgba(11, 45, 82, 0.45) 100%
+  );
+  z-index: 2;
+}
+
+.services-cta-content {
+  position: relative;
+  z-index: 3;
+  padding: 3.5rem 4rem;
+  max-width: 680px;
+}
+
+.services-cta-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #ffffff;
+  margin: 0.5rem 0 0.8rem;
+}
+
+.services-cta-desc {
+  color: #cbd5e1;
+  font-size: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.services-cta-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.services-disclaimer-strip {
+  background: #ffffff;
+  padding: 1.5rem 0 4rem;
+}
+
+.disclaimer-strip-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #fffdf5;
+  border: 1px solid #fef3c7;
+  border-left: 4px solid #f59e0b;
+  padding: 1.4rem 1.6rem;
+  border-radius: 8px;
+}
+
+.strip-alert-icon {
+  color: #d97706;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.disclaimer-strip-inner p {
+  font-size: 0.86rem;
+  color: #78350f;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .services-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .included-grid,
+  .why-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .service-steps-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .pricing-steps-checklist {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .services-hero-section {
+    padding: 3.5rem 0 3rem;
+    min-height: auto;
+  }
+
+  .services-hero-title {
+    font-size: 2.2rem;
+  }
+
+  .services-explore-section {
+    padding: 2.5rem 0 3rem;
+  }
+
+  .services-explore-section .section-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .services-section-heading {
+    font-size: 1.85rem;
+    line-height: 1.25;
+  }
+
+  .services-card-grid {
+    grid-template-columns: 1fr;
+    margin-top: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .service-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services-cta-content {
+    padding: 2.5rem 2rem;
+  }
+}
+
+@media (max-width: 580px) {
+  .services-hero-section {
+    padding: 2.5rem 0 2.2rem;
+  }
+
+  .services-hero-title {
+    font-size: 1.85rem;
+    line-height: 1.2;
+  }
+
+  .services-hero-desc {
+    font-size: 0.95rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .services-explore-section {
+    padding: 2rem 0 2.5rem;
+  }
+
+  .services-section-heading {
+    font-size: 1.55rem;
+    line-height: 1.25;
+    margin: 0.4rem 0 0.5rem;
+  }
+
+  .services-section-sub {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .services-hero-buttons,
+  .services-cta-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .included-grid,
+  .why-services-grid,
+  .service-steps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-card-banner {
+    padding: 2.2rem 1.4rem;
+  }
+
+  .pricing-title {
+    font-size: 1.7rem;
+  }
+}

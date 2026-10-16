@@ -1,0 +1,804 @@
+/* HOW IT WORKS PAGE STYLES - PROPERTY SURAKSHA */
+
+.how-it-works-page {
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================
+   1. HERO SECTION
+   ========================================= */
+.how-hero-section {
+  position: relative;
+  background-color: #051426;
+  color: #ffffff;
+  padding: 5rem 0 4rem;
+  overflow: hidden;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+}
+
+.how-hero-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.how-hero-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  opacity: 0.95;
+  filter: brightness(1.05) contrast(1.1) saturate(1.1);
+  transition: opacity 0.3s ease;
+}
+
+.how-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg, 
+    #051426 0%, 
+    rgba(5, 20, 38, 0.95) 32%, 
+    rgba(11, 45, 82, 0.7) 50%, 
+    rgba(11, 45, 82, 0.22) 75%,
+    rgba(5, 20, 38, 0.08) 100%
+  );
+  z-index: 2;
+}
+
+.how-hero-container {
+  position: relative;
+  z-index: 5;
+}
+
+.how-hero-content {
+  max-width: 650px;
+}
+
+.how-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0.8rem 0 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.how-hero-desc {
+  font-size: 1.08rem;
+  line-height: 1.65;
+  color: #cbd5e1;
+  margin-bottom: 2rem;
+}
+
+.how-hero-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.how-section-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #0B2D52;
+  margin: 0.35rem 0 0.6rem;
+  letter-spacing: -0.02em;
+}
+
+.how-section-sub {
+  font-size: 1.02rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* =========================================
+   2. VERTICAL TIMELINE (7 Steps)
+   ========================================= */
+.timeline-section {
+  padding: 5.5rem 0;
+  background: #ffffff;
+}
+
+.vertical-timeline {
+  max-width: 920px;
+  margin: 3.5rem auto 0;
+  position: relative;
+}
+
+.timeline-node {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timeline-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.timeline-num-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #0B2D52;
+  color: #D4AF37;
+  border: 2px solid #D4AF37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+  box-shadow: 0 6px 18px rgba(11, 45, 82, 0.25);
+  z-index: 2;
+  transition: transform 0.25s ease;
+}
+
+.timeline-node:hover .timeline-num-circle {
+  transform: scale(1.1);
+  background: #D4AF37;
+  color: #051426;
+}
+
+.timeline-connector-line {
+  position: absolute;
+  top: 58px;
+  bottom: -2rem;
+  width: 3px;
+  background: linear-gradient(180deg, #D4AF37 0%, #cbd5e1 100%);
+  z-index: 1;
+}
+
+.timeline-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 2.2rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.timeline-node:hover .timeline-card {
+  transform: translateX(4px);
+  border-color: #D4AF37;
+  box-shadow: 0 12px 28px rgba(11, 45, 82, 0.08);
+}
+
+.timeline-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.timeline-card-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(212, 175, 55, 0.15);
+  color: #b89528;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.timeline-step-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #b89528;
+  letter-spacing: 0.06em;
+  display: block;
+}
+
+.timeline-step-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #0B2D52;
+  line-height: 1.3;
+}
+
+.timeline-step-desc {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1.4rem;
+}
+
+.timeline-points-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 1.2rem;
+}
+
+.timeline-points-box strong {
+  display: block;
+  font-size: 0.88rem;
+  color: #0B2D52;
+  margin-bottom: 0.6rem;
+}
+
+.timeline-points-box ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.timeline-points-box li {
+  font-size: 0.86rem;
+  color: #475569;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.timeline-points-box li::before {
+  content: '•';
+  color: #D4AF37;
+  font-weight: 900;
+  font-size: 1.1rem;
+  position: absolute;
+  left: 0;
+  top: -2px;
+}
+
+.timeline-extra-note {
+  font-size: 0.82rem;
+  color: #b45309;
+  font-weight: 600;
+  margin-top: 0.8rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.timeline-outcome-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #065f46;
+  padding: 0.55rem 0.95rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.outcome-icon {
+  color: #10b981;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   3. TRACK YOUR REQUEST ONLINE
+   ========================================= */
+.track-online-section {
+  padding: 5.5rem 0;
+  background: #051426;
+  color: #ffffff;
+}
+
+.track-online-card {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.track-online-heading {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0.4rem 0 0.8rem;
+}
+
+.track-online-desc {
+  font-size: 1.05rem;
+  color: #cbd5e1;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.track-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  margin-bottom: 2.2rem;
+}
+
+.track-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+}
+
+.track-feat-icon {
+  color: #D4AF37;
+  flex-shrink: 0;
+}
+
+.track-cta-btn {
+  display: inline-flex;
+}
+
+.dashboard-mini-window {
+  background: #0B2D52;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+}
+
+.mini-window-bar {
+  background: #071c35;
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.window-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.window-title {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.mini-window-body {
+  padding: 2rem 1.8rem;
+}
+
+.mini-case-pill {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.15);
+  color: #ebd37d;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1.2rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.mini-status-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.84rem;
+  color: #cbd5e1;
+  margin-bottom: 0.6rem;
+}
+
+.mini-progress-pct {
+  color: #D4AF37;
+  font-weight: 700;
+}
+
+.mini-progress-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #D4AF37, #ebd37d);
+  border-radius: 4px;
+}
+
+.mini-file-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: #e2e8f0;
+}
+
+/* =========================================
+   4. DOCUMENTS YOU MAY NEED (Table)
+   ========================================= */
+.docs-needed-section {
+  padding: 5.5rem 0;
+  background: #f8fafc;
+}
+
+.docs-table-wrapper {
+  max-width: 920px;
+  margin: 3rem auto 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+}
+
+.docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.docs-table th {
+  background: #0B2D52;
+  color: #ffffff;
+  font-size: 0.94rem;
+  font-weight: 700;
+  padding: 1.1rem 1.6rem;
+}
+
+.docs-table td {
+  padding: 1.25rem 1.6rem;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.92rem;
+}
+
+.docs-table tr:last-child td {
+  border-bottom: none;
+}
+
+.doc-type-cell {
+  width: 32%;
+  color: #0B2D52;
+}
+
+.doc-names-cell {
+  color: #475569;
+}
+
+.table-bottom-disclaimer {
+  max-width: 920px;
+  margin: 0 auto;
+  font-size: 0.84rem;
+  color: #64748b;
+  text-align: center;
+}
+
+/* =========================================
+   5. HOW LONG DOES IT TAKE?
+   ========================================= */
+.timeline-info-section {
+  padding: 4.5rem 0;
+  background: #ffffff;
+}
+
+.timeline-info-box {
+  max-width: 920px;
+  margin: 0 auto;
+  background: #fffdf5;
+  border: 1.5px solid #fde68a;
+  border-radius: 14px;
+  padding: 2.5rem 2.8rem;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.08);
+}
+
+.timeline-clock-icon {
+  color: #D4AF37;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.timeline-info-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0B2D52;
+  margin-bottom: 0.6rem;
+}
+
+.timeline-info-desc {
+  font-size: 0.96rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 0.6rem;
+}
+
+.timeline-info-sub {
+  font-size: 0.88rem;
+  color: #92400e;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+/* =========================================
+   6. WHY CHOOSE PROPERTY SURAKSHA
+   ========================================= */
+.why-how-section {
+  padding: 5.5rem 0;
+  background: #f8fafc;
+}
+
+.why-how-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.why-how-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2.2rem 1.6rem;
+  transition: all 0.25s ease;
+}
+
+.why-how-card:hover {
+  transform: translateY(-4px);
+  border-color: #D4AF37;
+  box-shadow: 0 10px 24px rgba(11, 45, 82, 0.06);
+}
+
+.why-how-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background: rgba(11, 45, 82, 0.05);
+  color: #0B2D52;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.3rem;
+}
+
+.why-how-card h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0B2D52;
+  margin-bottom: 0.5rem;
+}
+
+.why-how-card p {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* =========================================
+   7. FAQS SECTION
+   ========================================= */
+.how-faq-section {
+  padding: 5.5rem 0;
+  background: #ffffff;
+}
+
+.how-faq-list {
+  max-width: 860px;
+  margin: 3rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.how-faq-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1.4rem 1.6rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.how-faq-item:hover {
+  border-color: #cbd5e1;
+}
+
+.how-faq-item.open {
+  border-color: #D4AF37;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(11, 45, 82, 0.05);
+}
+
+.how-faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0B2D52;
+}
+
+.how-faq-a {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.how-faq-a p {
+  font-size: 0.92rem;
+  color: #475569;
+  line-height: 1.65;
+}
+
+/* =========================================
+   8. FINAL CTA & DISCLAIMER
+   ========================================= */
+.how-cta-section {
+  padding: 3rem 0 4rem;
+  background: #f8fafc;
+}
+
+.how-cta-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 18px 45px rgba(11, 45, 82, 0.15);
+}
+
+.how-cta-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  z-index: 1;
+}
+
+.how-cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg, 
+    rgba(5, 20, 38, 0.96) 0%, 
+    rgba(11, 45, 82, 0.92) 50%, 
+    rgba(11, 45, 82, 0.45) 100%
+  );
+  z-index: 2;
+}
+
+.how-cta-content {
+  position: relative;
+  z-index: 3;
+  padding: 3.5rem 4rem;
+  max-width: 680px;
+}
+
+.how-cta-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #ffffff;
+  margin: 0.5rem 0 0.8rem;
+}
+
+.how-cta-desc {
+  color: #cbd5e1;
+  font-size: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.how-cta-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.how-disclaimer-section {
+  background: #ffffff;
+  padding: 1.5rem 0 4rem;
+}
+
+.how-disclaimer-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #fffdf5;
+  border: 1px solid #fef3c7;
+  border-left: 4px solid #f59e0b;
+  padding: 1.4rem 1.6rem;
+  border-radius: 8px;
+}
+
+.how-alert-icon {
+  color: #d97706;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.how-disclaimer-box p {
+  font-size: 0.86rem;
+  color: #78350f;
+  line-height: 1.6;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+@media (max-width: 992px) {
+  .track-online-card {
+    grid-template-columns: 1fr;
+  }
+
+  .why-how-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .how-hero-title {
+    font-size: 2.4rem;
+  }
+
+  .timeline-node {
+    grid-template-columns: 50px 1fr;
+    gap: 1.2rem;
+  }
+
+  .timeline-num-circle {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+
+  .timeline-connector-line {
+    top: 44px;
+  }
+
+  .timeline-card {
+    padding: 1.6rem 1.3rem;
+  }
+
+  .timeline-info-box {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .docs-table th, 
+  .docs-table td {
+    padding: 1rem;
+  }
+
+  .how-cta-content {
+    padding: 2.5rem 2rem;
+  }
+}
+
+@media (max-width: 580px) {
+  .how-hero-title {
+    font-size: 2rem;
+  }
+
+  .how-hero-buttons,
+  .how-cta-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .why-how-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .how-cta-title {
+    font-size: 1.7rem;
+  }
+}

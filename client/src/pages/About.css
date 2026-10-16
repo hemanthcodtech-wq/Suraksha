@@ -1,0 +1,701 @@
+/* ABOUT US PAGE STYLES - PROPERTY SURAKSHA */
+
+.about-page {
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================
+   1. HERO SECTION
+   ========================================= */
+.about-hero-section {
+  position: relative;
+  background-color: #051426;
+  color: #ffffff;
+  padding: 5rem 0 4rem;
+  overflow: hidden;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+}
+
+.about-hero-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.about-hero-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  opacity: 0.95;
+  filter: brightness(1.05) contrast(1.1) saturate(1.1);
+  transition: opacity 0.3s ease;
+}
+
+.about-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg, 
+    #051426 0%, 
+    rgba(5, 20, 38, 0.95) 32%, 
+    rgba(11, 45, 82, 0.72) 50%, 
+    rgba(11, 45, 82, 0.22) 75%,
+    rgba(5, 20, 38, 0.1) 100%
+  );
+  z-index: 2;
+}
+
+.about-hero-container {
+  position: relative;
+  z-index: 5;
+}
+
+.about-hero-content {
+  max-width: 650px;
+}
+
+.about-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0.8rem 0 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.about-hero-desc {
+  font-size: 1.08rem;
+  line-height: 1.65;
+  color: #cbd5e1;
+  margin-bottom: 2rem;
+}
+
+.about-hero-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+/* Common Section Titles */
+.about-section-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #0B2D52;
+  margin: 0.35rem 0 0.6rem;
+  letter-spacing: -0.02em;
+}
+
+.about-section-sub {
+  font-size: 1.02rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* =========================================
+   2. WHO WE ARE (OUR STORY)
+   ========================================= */
+.who-we-are-section {
+  padding: 5.5rem 0;
+  background: #ffffff;
+}
+
+.who-we-are-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.who-text-col p {
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 1.1rem;
+}
+
+.who-text-col .highlight-text {
+  font-weight: 700;
+  color: #0B2D52;
+  font-size: 1.05rem;
+  padding-left: 1rem;
+  border-left: 3px solid #D4AF37;
+  margin-top: 1.4rem;
+}
+
+.who-image-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(11, 45, 82, 0.12);
+}
+
+.who-inset-img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+}
+
+.who-badge-overlay {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  background: rgba(11, 45, 82, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: #ffffff;
+}
+
+.who-badge-icon {
+  color: #D4AF37;
+  flex-shrink: 0;
+}
+
+.who-badge-overlay strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #ebd37d;
+}
+
+.who-badge-overlay span {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+/* =========================================
+   3. OUR MISSION, VISION & VALUES
+   ========================================= */
+.mission-vision-section {
+  padding: 5.5rem 0;
+  background: #f8fafc;
+}
+
+.mission-vision-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.mv-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2.2rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.mv-card:hover {
+  transform: translateY(-5px);
+  border-color: #D4AF37;
+  box-shadow: 0 12px 28px rgba(11, 45, 82, 0.07);
+}
+
+.mv-icon-box {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  background: #fffdf5;
+  border: 1px solid #fef3c7;
+  color: #D4AF37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.4rem;
+}
+
+.mv-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0B2D52;
+  margin-bottom: 0.65rem;
+}
+
+.mv-desc {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* =========================================
+   4. WHY PROPERTY VERIFICATION MATTERS
+   ========================================= */
+.why-matters-section {
+  padding: 5rem 0;
+  background: #ffffff;
+}
+
+.why-matters-box {
+  background: linear-gradient(135deg, #051426 0%, #0B2D52 100%);
+  border-radius: 18px;
+  padding: 3.5rem 3.5rem;
+  color: #ffffff;
+  box-shadow: 0 18px 45px rgba(11, 45, 82, 0.15);
+}
+
+.why-matters-header {
+  max-width: 750px;
+  margin-bottom: 2.5rem;
+}
+
+.why-matters-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0.5rem 0 0.8rem;
+  line-height: 1.25;
+}
+
+.why-matters-desc {
+  font-size: 1.02rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.benefits-checklist-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.3rem;
+  margin-bottom: 2rem;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.1rem 1.3rem;
+  border-radius: 10px;
+}
+
+.benefit-span-full {
+  grid-column: 1 / -1;
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+.benefit-dot {
+  color: #D4AF37;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.benefit-item p {
+  font-size: 0.94rem;
+  color: #e2e8f0;
+  line-height: 1.5;
+}
+
+.matters-boundary-note {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.9rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  color: #94a3b8;
+  border-left: 3px solid #f59e0b;
+}
+
+.boundary-amber-icon {
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   5. WHAT MAKES US DIFFERENT
+   ========================================= */
+.different-section {
+  padding: 5.5rem 0;
+  background: #f8fafc;
+}
+
+.different-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.diff-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2.2rem 1.6rem;
+  transition: all 0.25s ease;
+}
+
+.diff-card:hover {
+  transform: translateY(-4px);
+  border-color: #D4AF37;
+  box-shadow: 0 12px 26px rgba(11, 45, 82, 0.06);
+}
+
+.diff-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: rgba(11, 45, 82, 0.05);
+  border: 1px solid rgba(11, 45, 82, 0.12);
+  color: #0B2D52;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.3rem;
+}
+
+.diff-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0B2D52;
+  margin-bottom: 0.6rem;
+}
+
+.diff-card-desc {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* =========================================
+   6. OUR VERIFICATION JOURNEY
+   ========================================= */
+.journey-section {
+  padding: 5.5rem 0;
+  background: #ffffff;
+}
+
+.journey-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+
+.journey-step {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.8rem 1.3rem;
+  text-align: center;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.journey-step:hover {
+  border-color: #D4AF37;
+  background: #ffffff;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(11, 45, 82, 0.06);
+}
+
+.journey-num-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #D4AF37;
+  color: #051426;
+  font-weight: 800;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.2rem;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.journey-step h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0B2D52;
+  margin-bottom: 0.5rem;
+}
+
+.journey-step p {
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* =========================================
+   7. WHO WE SERVE
+   ========================================= */
+.who-serve-section {
+  padding: 5.5rem 0;
+  background: #f8fafc;
+}
+
+.who-serve-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.serve-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2.2rem 1.6rem;
+  transition: all 0.25s ease;
+}
+
+.serve-card:hover {
+  transform: translateY(-4px);
+  border-color: #D4AF37;
+  box-shadow: 0 12px 26px rgba(11, 45, 82, 0.06);
+}
+
+.serve-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(212, 175, 55, 0.12);
+  color: #b89528;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.3rem;
+}
+
+.serve-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #0B2D52;
+  margin-bottom: 0.6rem;
+}
+
+.serve-desc {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* =========================================
+   8. OUR COMMITMENT TO CUSTOMERS
+   ========================================= */
+.commitment-section {
+  padding: 4.5rem 0;
+  background: #ffffff;
+}
+
+.commitment-card {
+  background: linear-gradient(135deg, #071930 0%, #0B2D52 100%);
+  border-radius: 16px;
+  padding: 3.5rem 3rem;
+  color: #ffffff;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.commitment-inner {
+  max-width: 840px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.commitment-title {
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0.5rem 0 1.2rem;
+  line-height: 1.25;
+}
+
+.commitment-desc {
+  font-size: 1.08rem;
+  color: #ebd37d;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.commitment-sub {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.65;
+}
+
+/* =========================================
+   9. FINAL CALL TO ACTION
+   ========================================= */
+.about-cta-section {
+  padding: 3rem 0 4rem;
+  background: #ffffff;
+}
+
+.about-cta-banner {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 18px 45px rgba(11, 45, 82, 0.15);
+}
+
+.about-cta-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  z-index: 1;
+}
+
+.about-cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg, 
+    rgba(5, 20, 38, 0.96) 0%, 
+    rgba(11, 45, 82, 0.92) 50%, 
+    rgba(11, 45, 82, 0.45) 100%
+  );
+  z-index: 2;
+}
+
+.about-cta-content {
+  position: relative;
+  z-index: 3;
+  padding: 3.5rem 4rem;
+  max-width: 700px;
+}
+
+.about-cta-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+.about-cta-desc {
+  color: #cbd5e1;
+  font-size: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.about-cta-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+/* =========================================
+   10. LEGAL DISCLAIMER
+   ========================================= */
+.about-disclaimer-section {
+  padding: 1.5rem 0 4rem;
+  background: #ffffff;
+}
+
+.about-disclaimer-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #fffdf5;
+  border: 1px solid #fef3c7;
+  border-left: 4px solid #f59e0b;
+  padding: 1.4rem 1.6rem;
+  border-radius: 8px;
+}
+
+.disclaimer-alert-icon {
+  color: #d97706;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.about-disclaimer-box p {
+  font-size: 0.88rem;
+  color: #78350f;
+  line-height: 1.6;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+@media (max-width: 1100px) {
+  .mission-vision-grid,
+  .different-grid,
+  .who-serve-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .journey-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .who-we-are-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-hero-title {
+    font-size: 2.4rem;
+  }
+
+  .benefits-checklist-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .journey-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-cta-content {
+    padding: 2.5rem 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-hero-title {
+    font-size: 2rem;
+  }
+
+  .about-hero-buttons,
+  .about-cta-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mission-vision-grid,
+  .different-grid,
+  .who-serve-grid,
+  .journey-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .why-matters-box {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .why-matters-title {
+    font-size: 1.7rem;
+  }
+
+  .about-cta-title {
+    font-size: 1.6rem;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   UserPlus, 
@@ -8,18 +8,25 @@ import {
   FileCheck2,
   ArrowLeft,
   Menu,
-  X
+  X,
+  LogOut
 } from 'lucide-react';
 import Logo from '../../components/Logo';
 import adminApi from '../../services/adminApi';
 import './Admin.css';
 
 export const AdminLayout = () => {
+  const navigate = useNavigate();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [badgeCounts, setBadgeCounts] = useState({
     newClients: 0,
     pendingApprovals: 0
   });
+
+  const handleLogout = () => {
+    localStorage.removeItem('suraksha_admin');
+    navigate('/login');
+  };
 
   // Fetch live badge counts across admin routes without reloading layout
   useEffect(() => {
@@ -138,6 +145,31 @@ export const AdminLayout = () => {
               <span>admin@propertysuraksha.com</span>
             </div>
           </div>
+
+          <button 
+            type="button" 
+            className="admin-logout-btn"
+            onClick={handleLogout}
+            style={{ 
+              width: '100%', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              gap: '0.6rem', 
+              padding: '0.65rem', 
+              background: 'rgba(239, 68, 68, 0.1)', 
+              border: '1px solid rgba(239, 68, 68, 0.25)', 
+              color: '#fca5a5', 
+              borderRadius: '8px', 
+              cursor: 'pointer', 
+              fontWeight: '600',
+              marginTop: '0.5rem',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <LogOut size={16} />
+            <span>Sign Out</span>
+          </button>
         </div>
       </aside>
 

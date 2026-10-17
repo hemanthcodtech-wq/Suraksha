@@ -4,17 +4,36 @@ import logoImg from '../../assets/logo.png';
 import './SplashScreen.css';
 
 export const SplashScreen = ({ onComplete }) => {
-  const [visible, setVisible] = useState(true);
+  // Only show splash screen once per session / browser opening
+  const [visible, setVisible] = useState(() => {
+    try {
+      const alreadyShown = sessionStorage.getItem('suraksha_splash_shown');
+      return !alreadyShown;
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
-    // Play splash with smooth duration
+    if (!visible) {
+      if (onComplete) onComplete();
+      return;
+    }
+
+    try {
+      sessionStorage.setItem('suraksha_splash_shown', 'true');
+    } catch {
+      // ignore
+    }
+
+    // Play splash with smooth duration on first opening only
     const timer = setTimeout(() => {
       setVisible(false);
       if (onComplete) onComplete();
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [onComplete]);
+  }, [visible, onComplete]);
 
   return (
     <AnimatePresence>

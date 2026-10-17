@@ -12,11 +12,12 @@ import {
   Loader2,
   Key
 } from 'lucide-react';
+import { Skeleton } from '../../components/common/Skeleton';
 import adminApi from '../../services/adminApi';
 
 export const AdminAdvocatesCreation = () => {
   const [advocates, setAdvocates] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [notification, setNotification] = useState(null);
   
@@ -151,7 +152,24 @@ export const AdminAdvocatesCreation = () => {
         </div>
 
         <div className="advocates-cards-grid">
-          {advocates.length === 0 ? (
+          {loading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="advocate-profile-card" style={{ opacity: 0.85 }}>
+                <div className="adv-card-header" style={{ marginBottom: '1rem' }}>
+                  <div className="skeleton-base skeleton-shimmer" style={{ width: '48px', height: '48px', borderRadius: '50%' }} />
+                  <div style={{ flex: 1 }}>
+                    <div className="skeleton-base skeleton-shimmer" style={{ height: '18px', width: '70%', marginBottom: '8px' }} />
+                    <div className="skeleton-base skeleton-shimmer" style={{ height: '14px', width: '45%' }} />
+                  </div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                  <div className="skeleton-base skeleton-shimmer" style={{ height: '14px', width: '85%' }} />
+                  <div className="skeleton-base skeleton-shimmer" style={{ height: '14px', width: '65%' }} />
+                  <div className="skeleton-base skeleton-shimmer" style={{ height: '24px', width: '40%', marginTop: '6px' }} />
+                </div>
+              </div>
+            ))
+          ) : advocates.length === 0 ? (
             <div className="empty-table-row" style={{ gridColumn: '1/-1' }}>
               No advocates found in database. Click "Register New Advocate" to add counsel.
             </div>

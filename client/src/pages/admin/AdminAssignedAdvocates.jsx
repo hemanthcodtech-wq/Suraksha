@@ -9,12 +9,14 @@ import {
   Eye,
   ExternalLink
 } from 'lucide-react';
+import { parseDocumentCategory } from '../../utils/documentCategories';
+import { SkeletonTableRows } from '../../components/common/Skeleton';
 import adminApi from '../../services/adminApi';
 
 export const AdminAssignedAdvocates = () => {
   const [assignedCases, setAssignedCases] = useState([]);
   const [advocates, setAdvocates] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
   const [reassignModal, setReassignModal] = useState({ open: false, caseItem: null, advocateId: '' });
   const [selectedDocsCase, setSelectedDocsCase] = useState(null);
@@ -105,7 +107,9 @@ export const AdminAssignedAdvocates = () => {
               </tr>
             </thead>
             <tbody>
-              {assignedCases.length === 0 ? (
+              {loading ? (
+                <SkeletonTableRows rows={6} columns={8} />
+              ) : assignedCases.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="empty-table-row">No active assigned cases in Neon database.</td>
                 </tr>
@@ -275,7 +279,9 @@ export const AdminAssignedAdvocates = () => {
 
                 return (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {docs.map((doc, idx) => (
+                    {docs.map((doc, idx) => {
+                      const catInfo = parseDocumentCategory(doc.name || '');
+                      return (
                       <div 
                         key={idx}
                         style={{
@@ -291,8 +297,26 @@ export const AdminAssignedAdvocates = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                           <FileText size={20} color="#60a5fa" />
                           <div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem', flexWrap: 'wrap' }}>
+                              <span style={{
+                                fontSize: '0.72rem',
+                                fontWeight: 700,
+                                padding: '0.15rem 0.55rem',
+                                borderRadius: '4px',
+                                background: catInfo.badgeBg,
+                                color: catInfo.badgeColor,
+                                border: `1px solid ${catInfo.badgeColor}40`
+                              }}>
+                                {catInfo.category}
+                              </span>
+                              {catInfo.telugu && (
+                                <span style={{ fontSize: '0.72rem', color: '#d97706' }}>
+                                  ({catInfo.telugu})
+                                </span>
+                              )}
+                            </div>
                             <strong style={{ display: 'block', fontSize: '0.9rem', color: '#f8fafc' }}>
-                              {doc.name || `Document_${idx + 1}.pdf`}
+                              {catInfo.cleanName || `Document_${idx + 1}.pdf`}
                             </strong>
                             <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
                               Uploaded: {doc.uploadedAt ? new Date(doc.uploadedAt).toLocaleDateString() : 'Initial Submission'}
@@ -322,7 +346,8 @@ export const AdminAssignedAdvocates = () => {
                           <ExternalLink size={12} />
                         </a>
                       </div>
-                    ))}
+                    );
+                  })}
                   </div>
                 );
               })()}

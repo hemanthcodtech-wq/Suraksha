@@ -1,0 +1,62 @@
+/* Skeleton Loading Design Tokens for Admin & Advocate Portals */
+
+@keyframes skeletonPulse {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-base {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.09) 37%,
+    rgba(255, 255, 255, 0.04) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeletonPulse 1.6s ease-in-out infinite;
+  display: block;
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(212, 175, 55, 0.09) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
+  background-size: 400% 100%;
+  animation: skeletonPulse 1.8s ease-in-out infinite;
+}
+
+/* Skeleton KPI Card */
+.skeleton-kpi-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.skeleton-kpi-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.skeleton-kpi-content {
+  flex: 1;
+}
+
+/* Skeleton Table Rows */
+.skeleton-table-row td {
+  padding: 1.1rem 1rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}

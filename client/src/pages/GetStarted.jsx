@@ -19,7 +19,10 @@ import {
   Mail, 
   MapPin, 
   HelpCircle, 
-  FileCheck 
+  FileCheck,
+  Trash2,
+  Eye,
+  Plus
 } from 'lucide-react';
 import { luxuryEasing, unravelContainer, unravelItem, fadeUpVariant } from '../components/animation/motionVariants';
 import ScrollReveal, { UnravelHeading } from '../components/animation/ScrollReveal';
@@ -198,17 +201,77 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
     setFormData({ ...formData, serviceType: id });
   };
 
-  const [selectedFiles, setSelectedFiles] = useState([]);
-
-  const handleFileUpload = (e) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      setSelectedFiles(filesArray);
-      setFormData({
-        ...formData,
-        uploadedFilesCount: filesArray.length
-      });
+  const REQUIRED_DOC_CATEGORIES = [
+    {
+      id: 'sale_deed',
+      title: '1. Current Registered Sale Deed',
+      telugu: 'ప్రస్తుత రిజిస్టర్డ్ సేల్ డీడ్',
+      desc: 'Latest registered title deed in favor of current owner/seller'
+    },
+    {
+      id: 'link_docs',
+      title: '2. Link Documents / Parent Deeds',
+      telugu: 'గత 30 సంవత్సరాలకు సంబంధించినవి',
+      desc: 'Prior chain of title deeds tracing ownership continuity for 30 years'
+    },
+    {
+      id: 'encumbrance_cert',
+      title: '3. Encumbrance Certificate (30 Years EC)',
+      telugu: '30 సంవత్సరాల ఈసీ సర్టిఫికేట్ (Form 15/16)',
+      desc: 'Online / Sub-registrar issued 30 years encumbrance statement'
+    },
+    {
+      id: 'sanction_plan',
+      title: '4. Approved Layout Plan & Building Sanction Plan',
+      telugu: 'అప్రూవ్డ్ లేఅవుట్ ప్లాన్ & బిల్డింగ్ సాంక్షన్ ప్లాన్',
+      desc: 'GHMC/HMDA/DTCP/Panchayat approved master layout and building permission'
+    },
+    {
+      id: 'rera_cert',
+      title: '5. RERA Registration Certificate',
+      telugu: 'Under-construction లేదా కొత్తగా నిర్మించిన ప్రాపర్టీకి వర్తిస్తే',
+      desc: 'Official state RERA project certificate (if new or under construction)'
+    },
+    {
+      id: 'tax_receipts',
+      title: '6. Latest Property Tax Receipts',
+      telugu: 'ఇటీవలి ప్రాపర్టీ పన్ను రశీదులు & Mutation / PTIN',
+      desc: 'Latest municipal / gram panchayat tax receipt proving tax clearance'
     }
+  ];
+
+  // Document files mapped by category id
+  const [docFiles, setDocFiles] = useState({
+    sale_deed: [],
+    link_docs: [],
+    encumbrance_cert: [],
+    sanction_plan: [],
+    rera_cert: [],
+    tax_receipts: []
+  });
+
+  const handleDocCategoryUpload = (catId, filesList) => {
+    const newFiles = Array.from(filesList);
+    setDocFiles(prev => {
+      const updated = {
+        ...prev,
+        [catId]: [...prev[catId], ...newFiles]
+      };
+      const totalCount = Object.values(updated).reduce((acc, curr) => acc + curr.length, 0);
+      setFormData(f => ({ ...f, uploadedFilesCount: totalCount }));
+      return updated;
+    });
+    if (errors.propertyDocs) setErrors(prev => ({ ...prev, propertyDocs: null }));
+  };
+
+  const handleRemoveDocFile = (catId, indexToRemove) => {
+    setDocFiles(prev => {
+      const updatedList = prev[catId].filter((_, idx) => idx !== indexToRemove);
+      const updated = { ...prev, [catId]: updatedList };
+      const totalCount = Object.values(updated).reduce((acc, curr) => acc + curr.length, 0);
+      setFormData(f => ({ ...f, uploadedFilesCount: totalCount }));
+      return updated;
+    });
   };
 
   const [submitting, setSubmitting] = useState(false);
@@ -239,8 +302,15 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
       payload.append('comments', formData.comments || '');
       payload.append('uploadedFilesCount', formData.uploadedFilesCount || 1);
 
-      selectedFiles.forEach((file) => {
-        payload.append('documents', file);
+      // Append all categorized files with friendly prefixed filenames
+      REQUIRED_DOC_CATEGORIES.forEach((cat) => {
+        const catFileList = docFiles[cat.id] || [];
+        catFileList.forEach((file) => {
+          // Clone with descriptive prefix so advocate & admin know exact category
+          const customName = `${cat.id.toUpperCase()}_${file.name}`;
+          const renamedFile = new File([file], customName, { type: file.type });
+          payload.append('documents', renamedFile);
+        });
       });
 
       // Post case directly into Neon PostgreSQL database & Cloudinary
@@ -561,42 +631,130 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
                     <p>Upload any available paperwork and provide contact details for quotation delivery.</p>
                   </div>
 
-                  {/* Upload Dropzone */}
+                  {/* Individual Upload Options for each Document */}
                   <div className={`upload-dropzone-box ${errors.propertyDocs ? 'field-error' : ''}`}>
-                    <label className="field-req-label">Property Documents Upload *</label>
-                    <input 
-                      type="file" 
-                      id="propertyDocs" 
-                      multiple 
-                      required={formData.uploadedFilesCount === 0}
-                      className="file-hidden-input" 
-                      onChange={(e) => {
-                        handleFileUpload(e);
-                        if (errors.propertyDocs) setErrors(prev => ({...prev, propertyDocs: null}));
-                      }}
-                    />
-                    <label htmlFor="propertyDocs" className={`dropzone-label ${errors.propertyDocs ? 'dropzone-error' : ''}`}>
-                      <motion.div 
-                        whileHover={{ y: -4 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Upload size={38} className="dropzone-icon" />
-                      </motion.div>
-                      <h4>Click or drag files here to upload *</h4>
-                      <p>Sale deed copy, Encumbrance Certificate (EC), RERA sanction or draft agreement</p>
-                      <span className="dropzone-hint">Supported: PDF, JPG, PNG (Max 50MB) — At least 1 document required</span>
-                    </label>
-                    {errors.propertyDocs && <span className="field-error-msg">{errors.propertyDocs}</span>}
-                    {formData.uploadedFilesCount > 0 && (
-                      <motion.div 
-                        className="uploaded-file-banner"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                      >
-                        <FileCheck size={18} />
-                        <span>{formData.uploadedFilesCount} file(s) selected for secure upload</span>
-                      </motion.div>
+                    <div className="docs-section-heading">
+                      <div>
+                        <label className="field-req-label" style={{ marginBottom: 2 }}>
+                          Required Property Documents Upload *
+                        </label>
+                        <p className="docs-section-sub">
+                          Please upload available documents under each category below. (Upload at least one document to proceed).
+                        </p>
+                      </div>
+                      {formData.uploadedFilesCount > 0 && (
+                        <div className="total-files-counter-badge">
+                          <FileCheck size={16} />
+                          <span>{formData.uploadedFilesCount} File(s) Attached</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {errors.propertyDocs && (
+                      <div className="doc-error-banner">
+                        <AlertTriangle size={18} />
+                        <span>{errors.propertyDocs}</span>
+                      </div>
                     )}
+
+                    {/* 6 Category Upload Cards Grid */}
+                    <div className="doc-categories-upload-grid">
+                      {REQUIRED_DOC_CATEGORIES.map((cat, idx) => {
+                        const currentFiles = docFiles[cat.id] || [];
+                        const isUploaded = currentFiles.length > 0;
+                        const inputId = `doc-input-${cat.id}`;
+
+                        return (
+                          <div 
+                            key={cat.id} 
+                            className={`doc-upload-card ${isUploaded ? 'has-files' : ''}`}
+                          >
+                            <div className="doc-card-header-row">
+                              <div className="doc-card-badge-wrap">
+                                <span className="doc-badge-number">{idx + 1}</span>
+                                {isUploaded ? (
+                                  <span className="doc-status-tag tag-uploaded">
+                                    <CheckCircle2 size={12} />
+                                    <span>{currentFiles.length} Uploaded</span>
+                                  </span>
+                                ) : (
+                                  <span className="doc-status-tag tag-pending">
+                                    <span>Optional / Required</span>
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="doc-card-body">
+                              <h4 className="doc-card-title">{cat.title.replace(/^\d+\.\s*/, '')}</h4>
+                              <div className="doc-telugu-pill">
+                                <span>{cat.telugu}</span>
+                              </div>
+                              <p className="doc-card-hint">{cat.desc}</p>
+                            </div>
+
+                            {/* File List if files already chosen for this slot */}
+                            {currentFiles.length > 0 && (
+                              <div className="doc-files-selected-list">
+                                {currentFiles.map((file, fileIdx) => (
+                                  <div key={fileIdx} className="doc-file-item">
+                                    <div className="doc-file-info">
+                                      <div className="doc-file-type-icon">
+                                        <FileCheck size={14} />
+                                      </div>
+                                      <div className="doc-file-text-col">
+                                        <span className="doc-filename" title={file.name}>
+                                          {file.name}
+                                        </span>
+                                        <span className="doc-filesize">
+                                          {(file.size / (1024 * 1024)).toFixed(2)} MB
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      className="doc-file-remove-btn"
+                                      onClick={() => handleRemoveDocFile(cat.id, fileIdx)}
+                                      title="Remove this file"
+                                    >
+                                      <Trash2 size={14} />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Hidden file input & styled upload button */}
+                            <div className="doc-card-actions">
+                              <input
+                                type="file"
+                                id={inputId}
+                                multiple
+                                className="file-hidden-input"
+                                onChange={(e) => {
+                                  if (e.target.files && e.target.files.length > 0) {
+                                    handleDocCategoryUpload(cat.id, e.target.files);
+                                  }
+                                }}
+                              />
+                              <label htmlFor={inputId} className={`doc-slot-upload-btn ${isUploaded ? 'btn-uploaded' : ''}`}>
+                                {isUploaded ? (
+                                  <>
+                                    <Plus size={16} />
+                                    <span>Add More Pages / Files</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Upload size={16} />
+                                    <span>Upload Document</span>
+                                  </>
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
 
                   <div className="form-section-title-tag">Contact Information for Quotation</div>

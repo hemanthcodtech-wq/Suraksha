@@ -349,9 +349,9 @@ export const Login = () => {
                 <label className="portal-form-label">
                   {role === 'Advocate' ? 'Temporary / Permanent Password' : 'Administrator Password'}
                 </label>
-                <span className="demo-hint-text">
+                {/* <span className="demo-hint-text">
                   Default: {role === 'Administrator' ? 'admin123' : 'Advocate@123'}
-                </span>
+                </span> */}
               </div>
               <div className="portal-input-container">
                 <Lock size={18} className="portal-field-icon" />

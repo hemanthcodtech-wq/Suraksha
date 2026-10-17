@@ -9,10 +9,11 @@ import {
   CheckCircle, 
   RefreshCw 
 } from 'lucide-react';
+import { SkeletonKpiCard, SkeletonTableRows } from '../../components/common/Skeleton';
 import adminApi from '../../services/adminApi';
 
 export const AdminDashboard = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     total_cases: 0,
     new_clients_count: 0,
@@ -65,49 +66,60 @@ export const AdminDashboard = () => {
 
       {/* KPI Cards */}
       <div className="admin-stats-grid">
-        <div className="admin-kpi-card">
-          <div className="kpi-icon-wrap gold">
-            <Briefcase size={24} />
-          </div>
-          <div className="kpi-info">
-            <span className="kpi-label">Total Verification Cases</span>
-            <h3 className="kpi-value">{stats.total_cases || 0}</h3>
-            <span className="kpi-meta">All-time property cases in DB</span>
-          </div>
-        </div>
+        {loading ? (
+          <>
+            <SkeletonKpiCard />
+            <SkeletonKpiCard />
+            <SkeletonKpiCard />
+            <SkeletonKpiCard />
+          </>
+        ) : (
+          <>
+            <div className="admin-kpi-card">
+              <div className="kpi-icon-wrap gold">
+                <Briefcase size={24} />
+              </div>
+              <div className="kpi-info">
+                <span className="kpi-label">Total Verification Cases</span>
+                <h3 className="kpi-value">{stats.total_cases || 0}</h3>
+                <span className="kpi-meta">All-time property cases in DB</span>
+              </div>
+            </div>
 
-        <div className="admin-kpi-card">
-          <div className="kpi-icon-wrap blue">
-            <UserPlus size={24} />
-          </div>
-          <div className="kpi-info">
-            <span className="kpi-label">New Clients Awaiting</span>
-            <h3 className="kpi-value">{stats.new_clients_count || 0}</h3>
-            <span className="kpi-meta highlight">Pending Advocate Assignment</span>
-          </div>
-        </div>
+            <div className="admin-kpi-card">
+              <div className="kpi-icon-wrap blue">
+                <UserPlus size={24} />
+              </div>
+              <div className="kpi-info">
+                <span className="kpi-label">New Clients Awaiting</span>
+                <h3 className="kpi-value">{stats.new_clients_count || 0}</h3>
+                <span className="kpi-meta highlight">Pending Advocate Assignment</span>
+              </div>
+            </div>
 
-        <div className="admin-kpi-card">
-          <div className="kpi-icon-wrap emerald">
-            <UserCheck size={24} />
-          </div>
-          <div className="kpi-info">
-            <span className="kpi-label">Active Panel Advocates</span>
-            <h3 className="kpi-value">{stats.active_advocates_count || 0}</h3>
-            <span className="kpi-meta">Bar-council attorneys</span>
-          </div>
-        </div>
+            <div className="admin-kpi-card">
+              <div className="kpi-icon-wrap emerald">
+                <UserCheck size={24} />
+              </div>
+              <div className="kpi-info">
+                <span className="kpi-label">Active Panel Advocates</span>
+                <h3 className="kpi-value">{stats.active_advocates_count || 0}</h3>
+                <span className="kpi-meta">Bar-council attorneys</span>
+              </div>
+            </div>
 
-        <div className="admin-kpi-card highlight-gold">
-          <div className="kpi-icon-wrap amber">
-            <FileCheck2 size={24} />
-          </div>
-          <div className="kpi-info">
-            <span className="kpi-label">Pending Document Approvals</span>
-            <h3 className="kpi-value">{stats.pending_approvals_count || 0}</h3>
-            <span className="kpi-meta gold-text">Awaiting Client Portal Release</span>
-          </div>
-        </div>
+            <div className="admin-kpi-card highlight-gold">
+              <div className="kpi-icon-wrap amber">
+                <FileCheck2 size={24} />
+              </div>
+              <div className="kpi-info">
+                <span className="kpi-label">Pending Document Approvals</span>
+                <h3 className="kpi-value">{stats.pending_approvals_count || 0}</h3>
+                <span className="kpi-meta gold-text">Awaiting Client Portal Release</span>
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Two Column Grid */}
@@ -132,7 +144,9 @@ export const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {recentActivity.length === 0 ? (
+                {loading ? (
+                  <SkeletonTableRows rows={5} columns={5} />
+                ) : recentActivity.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="empty-table-row">No cases found in Neon database.</td>
                   </tr>
@@ -165,7 +179,13 @@ export const AdminDashboard = () => {
           </div>
 
           <div className="approvals-mini-list">
-            {pendingApprovals.length === 0 ? (
+            {loading ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="skeleton-base skeleton-shimmer" style={{ height: '70px', borderRadius: '10px' }} />
+                ))}
+              </div>
+            ) : pendingApprovals.length === 0 ? (
               <div className="empty-state-box">
                 <CheckCircle size={36} className="empty-icon" />
                 <p>All advocate reports are cleared. No pending approvals.</p>

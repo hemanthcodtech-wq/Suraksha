@@ -10,12 +10,13 @@ import {
   ExternalLink,
   FileText
 } from 'lucide-react';
+import { SkeletonTableRows } from '../../components/common/Skeleton';
 import adminApi from '../../services/adminApi';
 import AdminLayout from './AdminLayout';
 
 export const AdminApprovals = () => {
   const [reports, setReports] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
   const [reviewModal, setReviewModal] = useState({ open: false, report: null, feedback: '' });
 
@@ -112,7 +113,9 @@ export const AdminApprovals = () => {
               </tr>
             </thead>
             <tbody>
-              {reports.length === 0 ? (
+              {loading ? (
+                <SkeletonTableRows rows={5} columns={7} />
+              ) : reports.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="empty-table-row">No legal reports submitted by advocates yet.</td>
                 </tr>

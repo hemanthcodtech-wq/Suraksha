@@ -12,12 +12,13 @@ import {
   ShieldAlert,
   MapPin
 } from 'lucide-react';
+import { SkeletonKpiCard, SkeletonTableRows } from '../../components/common/Skeleton';
 import adminApi from '../../services/adminApi';
 
 export const AdvocateDashboard = () => {
   const { advocate } = useOutletContext();
   const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchProjects = async () => {
     if (!advocate?.id) return;
@@ -58,45 +59,56 @@ export const AdvocateDashboard = () => {
 
       {/* Metrics Row */}
       <div className="advocate-metrics-grid">
-        <div className="advocate-stat-card">
-          <div className="advocate-stat-icon-wrap blue">
-            <FolderGit2 size={24} />
-          </div>
-          <div className="advocate-stat-data">
-            <h4>Assigned Projects</h4>
-            <div className="advocate-stat-number">{totalAssigned}</div>
-          </div>
-        </div>
+        {loading ? (
+          <>
+            <SkeletonKpiCard />
+            <SkeletonKpiCard />
+            <SkeletonKpiCard />
+            <SkeletonKpiCard />
+          </>
+        ) : (
+          <>
+            <div className="advocate-stat-card">
+              <div className="advocate-stat-icon-wrap blue">
+                <FolderGit2 size={24} />
+              </div>
+              <div className="advocate-stat-data">
+                <h4>Assigned Projects</h4>
+                <div className="advocate-stat-number">{totalAssigned}</div>
+              </div>
+            </div>
 
-        <div className="advocate-stat-card">
-          <div className="advocate-stat-icon-wrap amber">
-            <Clock size={24} />
-          </div>
-          <div className="advocate-stat-data">
-            <h4>Under Scrutiny</h4>
-            <div className="advocate-stat-number">{inReviewCount}</div>
-          </div>
-        </div>
+            <div className="advocate-stat-card">
+              <div className="advocate-stat-icon-wrap amber">
+                <Clock size={24} />
+              </div>
+              <div className="advocate-stat-data">
+                <h4>Under Scrutiny</h4>
+                <div className="advocate-stat-number">{inReviewCount}</div>
+              </div>
+            </div>
 
-        <div className="advocate-stat-card">
-          <div className="advocate-stat-icon-wrap gold">
-            <AlertCircle size={24} />
-          </div>
-          <div className="advocate-stat-data">
-            <h4>Awaiting Admin Approval</h4>
-            <div className="advocate-stat-number">{pendingAdminApproval}</div>
-          </div>
-        </div>
+            <div className="advocate-stat-card">
+              <div className="advocate-stat-icon-wrap gold">
+                <AlertCircle size={24} />
+              </div>
+              <div className="advocate-stat-data">
+                <h4>Awaiting Admin Approval</h4>
+                <div className="advocate-stat-number">{pendingAdminApproval}</div>
+              </div>
+            </div>
 
-        <div className="advocate-stat-card">
-          <div className="advocate-stat-icon-wrap emerald">
-            <CheckCircle2 size={24} />
-          </div>
-          <div className="advocate-stat-data">
-            <h4>Completed & Approved</h4>
-            <div className="advocate-stat-number">{completedCount}</div>
-          </div>
-        </div>
+            <div className="advocate-stat-card">
+              <div className="advocate-stat-icon-wrap emerald">
+                <CheckCircle2 size={24} />
+              </div>
+              <div className="advocate-stat-data">
+                <h4>Completed & Approved</h4>
+                <div className="advocate-stat-number">{completedCount}</div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Recent Assigned Projects Table */}
@@ -126,7 +138,9 @@ export const AdvocateDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {projects.length === 0 ? (
+              {loading ? (
+                <SkeletonTableRows rows={5} columns={7} />
+              ) : projects.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="empty-table-row">No projects currently assigned to your advocate desk.</td>
                 </tr>

@@ -31,7 +31,7 @@ router.get('/dashboard-stats', getDashboardStats);
 
 // 2. New Clients & Case Creation (supports document file uploads to Cloudinary)
 router.get('/clients', getNewClients);
-router.post('/clients', uploadMiddleware.array('documents', 10), createClientCase);
+router.post('/clients', uploadMiddleware.array('documents', 30), createClientCase);
 
 // 3. Advocates Assigned
 router.get('/assigned-cases', getAssignedCases);

@@ -12,12 +12,36 @@
   display: none;
   align-items: center;
   justify-content: space-between;
-  padding: 0.8rem 1.4rem;
+  padding: 0.7rem 1.2rem;
   background: #051426;
   border-bottom: 1px solid rgba(212, 175, 55, 0.25);
   position: sticky;
   top: 0;
   z-index: 999;
+}
+
+.advocate-mobile-header .logo-wrapper,
+.admin-mobile-header .logo-wrapper {
+  max-height: 40px;
+  overflow: hidden;
+}
+
+.advocate-mobile-header .logo-img,
+.admin-mobile-header .logo-img {
+  height: 38px !important;
+  max-height: 38px !important;
+  width: auto !important;
+  max-width: 140px !important;
+  object-fit: contain !important;
+}
+
+.advocate-sidebar-header .logo-img,
+.admin-sidebar-header .logo-img {
+  height: 48px !important;
+  max-height: 48px !important;
+  width: auto !important;
+  max-width: 170px !important;
+  object-fit: contain !important;
 }
 
 .advocate-mobile-toggle-btn {
@@ -27,6 +51,9 @@
   padding: 0.45rem;
   border-radius: 8px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Sidebar */
@@ -315,27 +342,159 @@
 @media (max-width: 1024px) {
   .advocate-metrics-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .advocate-main-viewport {
+    padding: 1.8rem 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
+  .advocate-portal-wrapper {
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
   .advocate-mobile-header {
     display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 999;
   }
+
   .advocate-sidebar {
     position: fixed;
-    left: -290px;
     top: 0;
     bottom: 0;
-    transition: left 0.3s ease;
-  }
-  .advocate-sidebar.open {
     left: 0;
+    width: 280px;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1050;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.6);
   }
+
+  .advocate-sidebar.open {
+    transform: translateX(0);
+  }
+
   .advocate-main-viewport {
-    padding: 1.4rem;
+    padding: 1.25rem 0.9rem;
+    width: 100%;
+    overflow-x: hidden;
   }
+
   .advocate-metrics-grid {
     grid-template-columns: 1fr;
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .advocate-stat-card {
+    padding: 1.15rem;
+  }
+
+  /* Responsive Topbar in Advocate views */
+  .admin-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .admin-topbar-actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .admin-topbar-actions button {
+    flex: 1;
+    min-width: 140px;
+    justify-content: center;
+  }
+
+  /* Tables container */
+  .admin-table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+  }
+
+  .admin-table {
+    min-width: 720px;
+  }
+
+  .admin-card-block {
+    padding: 1.2rem 0.85rem;
+    border-radius: 10px;
+  }
+
+  .card-block-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .card-block-header .admin-btn-gold {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Modals on Mobile */
+  .admin-modal-card {
+    width: 95% !important;
+    max-width: 95% !important;
+    margin: 1rem auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin-modal-body {
+    overflow-y: auto;
+    max-height: calc(90vh - 140px);
+    padding: 1.2rem;
+  }
+
+  .admin-modal-footer {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .admin-modal-footer button {
+    width: 100%;
+    justify-content: center;
   }
 }
+
+@media (max-width: 480px) {
+  .advocate-main-viewport {
+    padding: 1rem 0.65rem;
+  }
+
+  .admin-topbar-title h2 {
+    font-size: 1.35rem;
+    line-height: 1.25;
+  }
+
+  .admin-topbar-title p {
+    font-size: 0.82rem;
+  }
+
+  .advocate-stat-number {
+    font-size: 1.6rem;
+  }
+
+  .btn-upload-cert,
+  .btn-prepare-report {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

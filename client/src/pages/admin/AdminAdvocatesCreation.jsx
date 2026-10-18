@@ -35,7 +35,7 @@ export const AdminAdvocatesCreation = () => {
     experience_years: 5,
     city: 'Hyderabad',
     state: 'Telangana',
-    temporary_password: 'Advocate@123'
+    temporary_password: ''
   };
 
   const [form, setForm] = useState(initialFormState);
@@ -80,7 +80,7 @@ export const AdminAdvocatesCreation = () => {
       experience_years: adv.experience_years || 5,
       city: adv.city || 'Hyderabad',
       state: adv.state || 'Telangana',
-      temporary_password: adv.temporary_password || 'Advocate@123'
+      temporary_password: adv.temporary_password || ''
     });
     setModalOpen(true);
   };
@@ -227,7 +227,7 @@ export const AdminAdvocatesCreation = () => {
                   <div className="adv-cred-item">
                     <Key size={12} />
                     <span className="cred-label">Temp Pwd:</span>
-                    <span className="cred-val gold">{adv.temporary_password || 'Advocate@123'}</span>
+                    <span className="cred-val gold">{adv.temporary_password || '—'}</span>
                   </div>
                 </div>
 
@@ -297,7 +297,7 @@ export const AdminAdvocatesCreation = () => {
                       <input 
                         type="text" 
                         required 
-                        placeholder="e.g. Advocate@123"
+                        placeholder="Set initial sign-in password"
                         value={form.temporary_password}
                         onChange={(e) => setForm({ ...form, temporary_password: e.target.value })}
                         style={{ paddingLeft: '2.4rem' }}

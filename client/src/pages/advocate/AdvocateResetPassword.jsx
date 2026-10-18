@@ -97,7 +97,7 @@ export const AdvocateResetPassword = () => {
               <input 
                 type={showCurrent ? 'text' : 'password'}
                 required
-                placeholder="Enter current password or default Advocate@123"
+                placeholder="Enter your current or temporary password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 style={{ paddingRight: '2.5rem' }}

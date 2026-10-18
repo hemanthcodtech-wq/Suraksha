@@ -43,17 +43,9 @@ export const Login = () => {
     setOtpCode('');
     setOtpSuccessMessage('');
 
-    if (selectedRole === 'Administrator') {
-      setEmail('admin@propertysuraksha.com');
-      setPassword('admin123');
-    } else if (selectedRole === 'Advocate') {
-      setEmail('kancharlahemanth89@gmail.com');
-      setPassword('Advocate@123');
-    } else {
-      setEmail('');
-      setPhone('');
-      setPassword('');
-    }
+    setEmail('');
+    setPassword('');
+    setPhone('');
   };
 
   // Step 1: Request Email OTP for Customer
@@ -349,9 +341,6 @@ export const Login = () => {
                 <label className="portal-form-label">
                   {role === 'Advocate' ? 'Temporary / Permanent Password' : 'Administrator Password'}
                 </label>
-                {/* <span className="demo-hint-text">
-                  Default: {role === 'Administrator' ? 'admin123' : 'Advocate@123'}
-                </span> */}
               </div>
               <div className="portal-input-container">
                 <Lock size={18} className="portal-field-icon" />

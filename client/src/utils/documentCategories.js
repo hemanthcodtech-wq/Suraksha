@@ -47,8 +47,8 @@ export const parseDocumentCategory = (filename = '') => {
   }
   if (filename.startsWith('TAX_RECEIPTS_')) {
     return {
-      category: 'Property Tax Receipts',
-      telugu: 'ప్రాపర్టీ పన్ను రశీదులు',
+      category: 'Mutation Certificate / Khata / Patta Passbook',
+      telugu: 'Mutation Certificate / Khata / Patta Passbook',
       cleanName: filename.replace('TAX_RECEIPTS_', ''),
       badgeColor: '#14b8a6',
       badgeBg: 'rgba(20, 184, 166, 0.15)'

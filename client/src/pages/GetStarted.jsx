@@ -234,9 +234,9 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
     },
     {
       id: 'tax_receipts',
-      title: '6. Latest Property Tax Receipts',
-      telugu: 'ఇటీవలి ప్రాపర్టీ పన్ను రశీదులు & Mutation / PTIN',
-      desc: 'Latest municipal / gram panchayat tax receipt proving tax clearance'
+      title: '6. Mutation Certificate / Khata / Patta Passbook',
+      telugu: 'Mutation Certificate / Khata / Patta Passbook',
+      desc: 'Mutation certificate / Khata / Patta Passbook'
     }
   ];
 

@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const BASE_FRONTEND_URL = (process.env.CLIENT_URL || process.env.FRONTEND_URL || 'https://www.propertysuraksha.in').replace(/\/$/, '');
+
 // Create reusable transporter object using Gmail SMTP
 export const transporter = nodemailer.createTransport({
   service: process.env.EMAIL_SERVICE || 'gmail',
@@ -103,7 +105,7 @@ export const sendCustomerOtpEmail = async (customerEmail, customerName, otpCode)
         <p style="font-size: 13px; color: #94a3b8;">If you did not request this OTP, please contact our legal operations team immediately.</p>
       `,
       actionBtnText: 'Access Customer Portal',
-      actionBtnUrl: 'http://localhost:5173/login'
+      actionBtnUrl: `${BASE_FRONTEND_URL}/login`
     })
   };
 
@@ -141,7 +143,7 @@ export const sendAdminNewClientNotification = async (clientCase) => {
         <p>Please log in to the Administrator Panel to assign a practicing property advocate from your verified panel.</p>
       `,
       actionBtnText: 'Assign Advocate in Admin Panel',
-      actionBtnUrl: 'http://localhost:5173/admin/new-clients'
+      actionBtnUrl: `${BASE_FRONTEND_URL}/admin/new-clients`
     })
   };
 
@@ -176,7 +178,7 @@ export const sendAdvocateAssignedNotification = async (clientCase, advocate) => 
         <p>Your advocate has begun inspecting the link deeds, encumbrance history, and statutory approvals. You will receive real-time notifications as findings are prepared.</p>
       `,
       actionBtnText: 'Track Verification Status',
-      actionBtnUrl: 'http://localhost:5173/login'
+      actionBtnUrl: `${BASE_FRONTEND_URL}/login`
     })
   });
 
@@ -204,7 +206,7 @@ export const sendAdvocateAssignedNotification = async (clientCase, advocate) => 
         <p>Please log in to your Advocate Console to review document uploads, update case progress, and prepare the legal letter.</p>
       `,
       actionBtnText: 'Open Advocate Console',
-      actionBtnUrl: 'http://localhost:5173/advocate/projects'
+      actionBtnUrl: `${BASE_FRONTEND_URL}/advocate/projects`
     })
   });
 
@@ -237,7 +239,7 @@ export const sendReportApprovedNotification = async (clientCase, report, advocat
         <p>Log in with your registered phone number or email to view the complete observations, legal recommendation, and download your verified certification.</p>
       `,
       actionBtnText: 'View Legal Report & Certificate',
-      actionBtnUrl: 'http://localhost:5173/login'
+      actionBtnUrl: `${BASE_FRONTEND_URL}/login`
     })
   };
 

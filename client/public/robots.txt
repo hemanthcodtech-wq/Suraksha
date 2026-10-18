@@ -1,0 +1,28 @@
+# Property Suraksha Production Robots.txt
+# https://www.propertysuraksha.in/
+
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /services
+Allow: /how-it-works
+Allow: /contact
+Allow: /get-started
+Allow: /login
+Allow: /signup
+Allow: /advocate-policy
+Allow: /privacy
+Allow: /terms
+Allow: /refund
+
+# Restrict private and internal portals
+Disallow: /admin/
+Disallow: /admin
+Disallow: /advocate/
+Disallow: /advocate
+Disallow: /customer/
+Disallow: /customer
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://www.propertysuraksha.in/sitemap.xml

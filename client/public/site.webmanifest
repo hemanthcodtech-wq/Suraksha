@@ -1,0 +1,16 @@
+{
+  "name": "Property Suraksha - Legal Property Verification Services",
+  "short_name": "PropertySuraksha",
+  "description": "India's premier property legal verification platform. Expert advocates perform 30-year title diligence, encumbrance verification, and RERA compliance.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030812",
+  "theme_color": "#051426",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

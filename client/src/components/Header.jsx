@@ -64,18 +64,18 @@ export const Header = () => {
         {/* 3. Actions: Desktop Helpline + Login + CTA */}
         <div className="header-actions">
           {/* Official Helpline Phone Number (Desktop) */}
-          <a href="tel:+919876543210" className="header-phone-link">
+          <a href="tel:+917989938718" className="header-phone-link">
             <div className="header-phone-icon-box">
               <Phone size={14} />
             </div>
             <div className="header-phone-text">
               <span className="phone-label">Helpline</span>
-              <span className="phone-val">+91 98765 43210</span>
+              <span className="phone-val">+91 79899 38718</span>
             </div>
           </a>
 
           {/* Quick Phone Call Pill on Mobile & Tablet */}
-          <a href="tel:+919876543210" className="mobile-quick-call-btn" aria-label="Call Helpline">
+          <a href="tel:+917989938718" className="mobile-quick-call-btn" aria-label="Call Helpline">
             <Phone size={15} />
             <span>Call</span>
           </a>
@@ -142,13 +142,13 @@ export const Header = () => {
                 <div className="mobile-nav-divider"></div>
 
                 {/* Mobile Direct Helpline Card */}
-                <a href="tel:+919876543210" className="mobile-phone-link">
+                <a href="tel:+917989938718" className="mobile-phone-link">
                   <div className="mobile-phone-icon-box">
                     <Phone size={18} />
                   </div>
                   <div className="mobile-phone-info">
                     <span className="mobile-phone-label">Toll-Free Legal Helpline</span>
-                    <span className="mobile-phone-num">+91 98765 43210</span>
+                    <span className="mobile-phone-num">+91 79899 38718</span>
                   </div>
                 </a>
 

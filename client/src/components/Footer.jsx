@@ -64,15 +64,15 @@ export const Footer = () => {
           <ul className="footer-contact-list">
             <li>
               <MapPin size={18} className="contact-icon" />
-              <span>Legal Tech Park, Financial District, Hyderabad, India</span>
+              <span>Hyderabad, Telangana, India</span>
             </li>
             <li>
               <Phone size={18} className="contact-icon" />
-              <span>+91 98765 43210 / Toll-Free: 1800-SURAKSHA</span>
+              <span>+91 79899 38718</span>
             </li>
             <li>
               <Mail size={18} className="contact-icon" />
-              <span>support@propertysuraksha.com</span>
+              <span>1ticket0308@gmail.com</span>
             </li>
           </ul>
           <div style={{ marginTop: '0.8rem' }}>

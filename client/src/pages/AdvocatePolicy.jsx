@@ -184,7 +184,7 @@ export const AdvocatePolicy = () => {
                 <h2>Quality and Complaints</h2>
               </div>
               <p>
-                Customers may raise concerns regarding turnaround delays, communication, or the scope of an issued report through our grievance desk at <code>support@propertysuraksha.com</code>.
+                Customers may raise concerns regarding turnaround delays, communication, or the scope of an issued report through our grievance desk at <code>1ticket0308@gmail.com</code>.
               </p>
               <p>
                 Complaints will be reviewed according to the circumstances, engagement terms, and applicable law. A disagreement with an advocate's unbiased legal findings does not, by itself, establish professional misconduct or guarantee a refund.
@@ -208,11 +208,11 @@ export const AdvocatePolicy = () => {
               <div className="policy-contact-details">
                 <div className="contact-detail-row">
                   <Mail size={18} className="detail-icon" />
-                  <span>Email: legal@propertysuraksha.com / support@propertysuraksha.com</span>
+                  <span>Email: 1ticket0308@gmail.com</span>
                 </div>
                 <div className="contact-detail-row">
                   <Phone size={18} className="detail-icon" />
-                  <span>Phone: +91 98765 43210 / Toll-Free: 1800-SURAKSHA</span>
+                  <span>Phone: +91 79899 38718</span>
                 </div>
               </div>
             </section>

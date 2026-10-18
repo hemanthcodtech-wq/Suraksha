@@ -143,7 +143,7 @@ export const Contact = () => {
                   <div className="channel-text">
                     <h4>Call Us</h4>
                     <p>Speak to our team about your verification requirements.</p>
-                    <a href="tel:+919876543210" className="channel-link">+91 98765 43210 / 1800-SURAKSHA</a>
+                    <a href="tel:+917989938718" className="channel-link">+91 79899 38718</a>
                   </div>
                 </ScrollReveal>
 
@@ -155,7 +155,7 @@ export const Contact = () => {
                   <div className="channel-text">
                     <h4>Email Us</h4>
                     <p>Send your enquiries, questions, or service requests.</p>
-                    <a href="mailto:support@propertysuraksha.com" className="channel-link">support@propertysuraksha.com</a>
+                    <a href="mailto:1ticket0308@gmail.com" className="channel-link">1ticket0308@gmail.com</a>
                   </div>
                 </ScrollReveal>
 
@@ -167,7 +167,7 @@ export const Contact = () => {
                   <div className="channel-text">
                     <h4>WhatsApp Support</h4>
                     <p>Reach out for general enquiries and assistance with your request.</p>
-                    <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="channel-link">+91 98765 43210 (WhatsApp)</a>
+                    <a href="https://wa.me/917989938718" target="_blank" rel="noreferrer" className="channel-link">+91 79899 38718 (WhatsApp)</a>
                   </div>
                 </ScrollReveal>
 
@@ -427,7 +427,7 @@ export const Contact = () => {
                 <MapPin size={24} className="location-pin-icon" />
                 <div>
                   <strong>Our Office / Service Location</strong>
-                  <p>Level 4, Legal Tech Tower, Financial District, Nanakramguda, Hyderabad, Telangana — 500032, India</p>
+                  <p>Hyderabad, Telangana, India</p>
                 </div>
               </div>
             </div>

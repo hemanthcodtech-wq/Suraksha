@@ -429,11 +429,62 @@ export const updateAdvocate = async (req, res) => {
 };
 
 // ==========================================
+// ==========================================
+// 4A. ADMIN LOGIN
+// ==========================================
+
+// Admin Login — checks admins table, bcrypt password compare
+export const adminLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: 'Email and password are required' });
+    }
+
+    const result = await query(
+      `SELECT * FROM admins WHERE LOWER(email) = LOWER($1) LIMIT 1`,
+      [email.trim()]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ success: false, message: 'No admin account found with this email.' });
+    }
+
+    const admin = result.rows[0];
+
+    // Compare bcrypt hash
+    const bcrypt = await import('bcryptjs');
+    const isMatch = await bcrypt.default.compare(password, admin.password_hash);
+    if (!isMatch) {
+      return res.status(401).json({ success: false, message: 'Invalid password. Please try again.' });
+    }
+
+    // Update last login
+    await query(`UPDATE admins SET last_login = NOW() WHERE id = $1`, [admin.id]);
+
+    return res.json({
+      success: true,
+      message: 'Admin authenticated successfully',
+      admin: {
+        id: admin.id,
+        name: admin.name,
+        email: admin.email,
+        role: admin.role
+      }
+    });
+  } catch (error) {
+    console.error('Admin login error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ==========================================
 // 4B. ADVOCATE PORTAL ENDPOINTS
 // ==========================================
 
 // Advocate Login verification against Neon DB
 export const advocateLogin = async (req, res) => {
+
   try {
     const { email, password } = req.body;
     if (!email || !password) {

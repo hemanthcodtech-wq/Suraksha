@@ -27,8 +27,19 @@ import {
 import { luxuryEasing, unravelContainer, unravelItem, fadeUpVariant } from '../components/animation/motionVariants';
 import ScrollReveal, { UnravelHeading } from '../components/animation/ScrollReveal';
 import MagneticButton from '../components/animation/MagneticButton';
-import adminApi from '../services/adminApi';
+import adminApi, { paymentApi } from '../services/adminApi';
 import './GetStarted.css';
+
+// Dynamically load Razorpay checkout script
+const loadRazorpay = () =>
+  new Promise((resolve) => {
+    if (window.Razorpay) { resolve(true); return; }
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
 
 export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = false }) => {
   const [searchParams] = useSearchParams();
@@ -48,6 +59,8 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
   const [selectedService, setSelectedService] = useState(preSelectedService);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [caseId, setCaseId] = useState('');
+  const [paymentId, setPaymentId] = useState('');
+  const [paymentDone, setPaymentDone] = useState(false);
 
   const [formData, setFormData] = useState({
     serviceType: preSelectedService,
@@ -288,8 +301,11 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
     }
 
     setSubmitting(true);
+    let resolvedCaseRef = '';
+    let resolvedCase = null;
+
     try {
-      // Build multipart FormData to stream files directly to Cloudinary
+      // ── Step 1: Create case in DB & upload docs to Cloudinary ──
       const payload = new FormData();
       payload.append('serviceType', formData.serviceType);
       payload.append('propertyType', formData.propertyType);
@@ -302,33 +318,104 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
       payload.append('comments', formData.comments || '');
       payload.append('uploadedFilesCount', formData.uploadedFilesCount || 1);
 
-      // Append all categorized files with friendly prefixed filenames
       REQUIRED_DOC_CATEGORIES.forEach((cat) => {
         const catFileList = docFiles[cat.id] || [];
         catFileList.forEach((file) => {
-          // Clone with descriptive prefix so advocate & admin know exact category
           const customName = `${cat.id.toUpperCase()}_${file.name}`;
           const renamedFile = new File([file], customName, { type: file.type });
           payload.append('documents', renamedFile);
         });
       });
 
-      // Post case directly into Neon PostgreSQL database & Cloudinary
       const res = await adminApi.createClient(payload);
       if (res.success && res.case) {
-        setCaseId(res.case.case_reference);
-        if (typeof onCaseCreated === 'function') {
-          onCaseCreated(res.case);
-        }
+        resolvedCaseRef = res.case.case_reference;
+        resolvedCase = res.case;
+        setCaseId(resolvedCaseRef);
+        if (typeof onCaseCreated === 'function') onCaseCreated(res.case);
       } else {
-        const generatedId = `PS-${Math.floor(100000 + Math.random() * 900000)}`;
-        setCaseId(generatedId);
+        resolvedCaseRef = `PS-${Math.floor(100000 + Math.random() * 900000)}`;
+        setCaseId(resolvedCaseRef);
       }
     } catch (err) {
       console.error('Error posting case to server:', err);
-      const generatedId = `PS-${Math.floor(100000 + Math.random() * 900000)}`;
-      setCaseId(generatedId);
-    } finally {
+      resolvedCaseRef = `PS-${Math.floor(100000 + Math.random() * 900000)}`;
+      setCaseId(resolvedCaseRef);
+    }
+
+    // ── Step 2: Open Razorpay Payment Modal ──
+    try {
+      const scriptLoaded = await loadRazorpay();
+      if (!scriptLoaded) throw new Error('Razorpay SDK failed to load');
+
+      const orderRes = await paymentApi.createOrder({
+        caseReference: resolvedCaseRef,
+        customerName: formData.customerName,
+        customerEmail: formData.customerEmail,
+        customerPhone: formData.customerPhone
+      });
+
+      if (!orderRes.success) throw new Error(orderRes.message || 'Order creation failed');
+
+      await new Promise((resolve) => {
+        const options = {
+          key: orderRes.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID,
+          amount: orderRes.amount,
+          currency: orderRes.currency || 'INR',
+          name: 'Property Suraksha',
+          description: `Registration Fee — Case ${resolvedCaseRef}`,
+          image: '/logo.png',
+          order_id: orderRes.order.id,
+          prefill: {
+            name: formData.customerName,
+            email: formData.customerEmail,
+            contact: formData.customerPhone
+          },
+          theme: { color: '#C9A84C' },
+          modal: {
+            ondismiss: () => {
+              // Payment dismissed — still show success (case is saved)
+              setSubmitting(false);
+              setIsSubmitted(true);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              resolve();
+            }
+          },
+          handler: async (paymentResponse) => {
+            try {
+              const verifyRes = await paymentApi.verifyPayment({
+                razorpay_order_id: paymentResponse.razorpay_order_id,
+                razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                razorpay_signature: paymentResponse.razorpay_signature,
+                caseReference: resolvedCaseRef
+              });
+              if (verifyRes.success) {
+                setPaymentId(paymentResponse.razorpay_payment_id);
+                setPaymentDone(true);
+              }
+            } catch (vErr) {
+              console.error('Payment verification error:', vErr);
+            } finally {
+              setSubmitting(false);
+              setIsSubmitted(true);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              resolve();
+            }
+          }
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', (response) => {
+          console.error('Razorpay payment failed:', response.error);
+          setSubmitting(false);
+          setIsSubmitted(true);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          resolve();
+        });
+        rzp.open();
+      });
+    } catch (payErr) {
+      console.error('Razorpay integration error:', payErr);
       setSubmitting(false);
       setIsSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -397,11 +484,23 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
             >
               <CheckCircle2 size={68} className="success-check-icon" />
             </motion.div>
-            <span className="success-tag">Request Received</span>
+            <span className="success-tag">{paymentDone ? 'Payment Confirmed' : 'Request Received'}</span>
             <h2 className="success-case-title">Your Case Reference: {caseId}</h2>
             <p className="success-case-desc">
               Thank you, <strong>{formData.customerName}</strong>. Our senior legal admin team has received your verification request for <strong>{formData.projectOrSurvey || 'your property'}</strong>.
             </p>
+
+            {paymentDone ? (
+              <div className="payment-success-badge">
+                <Receipt size={18} />
+                <span>Registration fee paid &nbsp;·&nbsp; Payment ID: <strong>{paymentId}</strong></span>
+              </div>
+            ) : (
+              <div className="payment-pending-badge">
+                <AlertTriangle size={16} />
+                <span>Registration fee payment incomplete. Our team will contact you to complete payment.</span>
+              </div>
+            )}
 
             <div className="success-next-steps">
               <h4>What Happens Next:</h4>
@@ -813,6 +912,13 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
                     </p>
                   </div>
 
+                  <div className="intake-notice" style={{ background: 'linear-gradient(135deg,#fffbeb,#fef3c7)', borderColor: '#fbbf24' }}>
+                    <Receipt size={20} className="intake-shield" style={{ color: '#b45309' }} />
+                    <p style={{ color: '#78350f' }}>
+                      <strong>Registration Fee — ₹4999:</strong> After submitting, a secure Razorpay payment window will open to collect the one-time registration fee before we begin verification.
+                    </p>
+                  </div>
+
                   <div className="step-nav-row">
                     <button 
                       type="button" 
@@ -827,7 +933,7 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
                         disabled={submitting}
                         className="btn-intake-submit"
                       >
-                        <span>{submitting ? 'Submitting ...' : 'Submit Verification Request'}</span>
+                        <span>{submitting ? 'Uploading & Preparing Payment...' : 'Submit & Pay Registration Fee (₹4999)'}</span>
                         <ArrowRight size={18} />
                       </button>
                     </MagneticButton>

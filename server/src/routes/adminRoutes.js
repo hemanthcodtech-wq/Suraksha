@@ -9,6 +9,7 @@ import {
   getAllAdvocates,
   createAdvocate,
   updateAdvocate,
+  adminLogin,
   advocateLogin,
   getAdvocateAssignedProjects,
   updateCaseProgressStatus,
@@ -28,6 +29,9 @@ const router = express.Router();
 
 // 1. Dashboard Metrics
 router.get('/dashboard-stats', getDashboardStats);
+
+// 0. Admin Login (dynamic, DB-backed)
+router.post('/login', adminLogin);
 
 // 2. New Clients & Case Creation (supports document file uploads to Cloudinary)
 router.get('/clients', getNewClients);

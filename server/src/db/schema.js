@@ -2,6 +2,17 @@ import { query } from './index.js';
 
 export const initSchema = async () => {
   const sql = `
+    -- 0. Admins table
+    CREATE TABLE IF NOT EXISTS admins (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255) UNIQUE NOT NULL,
+      password_hash VARCHAR(255) NOT NULL,
+      role VARCHAR(50) NOT NULL DEFAULT 'Administrator',
+      last_login TIMESTAMP WITH TIME ZONE,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    );
+
     -- 1. Users table (Admin, Advocates, Clients)
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
@@ -62,6 +73,13 @@ export const initSchema = async () => {
     ALTER TABLE cases ADD COLUMN IF NOT EXISTS certificate_name VARCHAR(255);
     ALTER TABLE cases ADD COLUMN IF NOT EXISTS certificate_uploaded_at TIMESTAMP WITH TIME ZONE;
     ALTER TABLE cases ADD COLUMN IF NOT EXISTS uploaded_documents JSONB DEFAULT '[]'::jsonb;
+
+    -- Razorpay payment tracking columns
+    ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_status VARCHAR(50) DEFAULT 'pending';
+    ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_id VARCHAR(255);
+    ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_order_id VARCHAR(255);
+    ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_amount NUMERIC(10,2);
+    ALTER TABLE cases ADD COLUMN IF NOT EXISTS paid_at TIMESTAMP WITH TIME ZONE;
 
     -- 4. Prepared Reports (Advocate review awaiting Admin Approval for client portal)
     CREATE TABLE IF NOT EXISTS prepared_reports (

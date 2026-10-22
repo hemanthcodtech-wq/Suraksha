@@ -154,4 +154,35 @@ export const adminApi = {
   }
 };
 
+// ==========================================
+// Razorpay Payment API
+// ==========================================
+export const paymentApi = {
+  /**
+   * Creates a Razorpay order on the server.
+   * @returns { order, keyId, amount, currency }
+   */
+  createOrder: async ({ caseReference, customerName, customerEmail, customerPhone }) => {
+    const res = await fetch(`${API_BASE_URL}/payment/create-order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ caseReference, customerName, customerEmail, customerPhone })
+    });
+    return res.json();
+  },
+
+  /**
+   * Verifies Razorpay payment signature server-side.
+   * @returns { success, paymentId }
+   */
+  verifyPayment: async ({ razorpay_order_id, razorpay_payment_id, razorpay_signature, caseReference }) => {
+    const res = await fetch(`${API_BASE_URL}/payment/verify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ razorpay_order_id, razorpay_payment_id, razorpay_signature, caseReference })
+    });
+    return res.json();
+  }
+};
+
 export default adminApi;

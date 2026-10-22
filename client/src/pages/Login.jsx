@@ -109,7 +109,28 @@ export const Login = () => {
     setAuthError('');
 
     if (role === 'Administrator') {
-      navigate('/admin/dashboard');
+      setSubmitting(true);
+      try {
+        const res = await fetch(`${API_BASE_URL}/admin/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (data.success && data.admin) {
+          localStorage.setItem('suraksha_admin', JSON.stringify(data.admin));
+          if (data.token) {
+            localStorage.setItem('suraksha_admin_token', data.token);
+          }
+          navigate('/admin/dashboard');
+        } else {
+          setAuthError(data.message || 'Invalid administrator credentials. Access restricted to authorized admins only.');
+        }
+      } catch (err) {
+        setAuthError('Connection error during administrator authentication.');
+      } finally {
+        setSubmitting(false);
+      }
       return;
     }
 

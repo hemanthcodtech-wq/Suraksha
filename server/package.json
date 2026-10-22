@@ -7,7 +7,8 @@
   "scripts": {
     "start": "nodemon src/index.js",
     "dev": "nodemon src/index.js",
-    "seed": "node src/db/seed.js"
+    "seed": "node src/db/seed.js",
+    "seed:admin": "node src/db/seedAdmin.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
@@ -19,7 +20,8 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.4.0",
     "nodemailer": "^10.1.2",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "razorpay": "^2.9.8"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

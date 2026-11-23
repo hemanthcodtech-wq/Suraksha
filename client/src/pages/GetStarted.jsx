@@ -22,24 +22,17 @@ import {
   FileCheck,
   Trash2,
   Eye,
-  Plus
+  Plus,
+  QrCode,
+  Image as ImageIcon,
+  Check
 } from 'lucide-react';
 import { luxuryEasing, unravelContainer, unravelItem, fadeUpVariant } from '../components/animation/motionVariants';
 import ScrollReveal, { UnravelHeading } from '../components/animation/ScrollReveal';
 import MagneticButton from '../components/animation/MagneticButton';
-import adminApi, { paymentApi } from '../services/adminApi';
+import adminApi from '../services/adminApi';
+import scannerImg from '../assets/image.png';
 import './GetStarted.css';
-
-// Dynamically load Razorpay checkout script
-const loadRazorpay = () =>
-  new Promise((resolve) => {
-    if (window.Razorpay) { resolve(true); return; }
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
 
 export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = false }) => {
   const [searchParams] = useSearchParams();
@@ -59,8 +52,11 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
   const [selectedService, setSelectedService] = useState(preSelectedService);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [caseId, setCaseId] = useState('');
-  const [paymentId, setPaymentId] = useState('');
-  const [paymentDone, setPaymentDone] = useState(false);
+  
+  // Scanner & Payment Screenshot State
+  const [paymentScreenshotFile, setPaymentScreenshotFile] = useState(null);
+  const [paymentScreenshotPreview, setPaymentScreenshotPreview] = useState(null);
+  const [transactionId, setTransactionId] = useState('');
 
   const [formData, setFormData] = useState({
     serviceType: preSelectedService,
@@ -134,6 +130,9 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
         newErrors.customerEmail = 'Email address is required';
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customerEmail.trim())) {
         newErrors.customerEmail = 'Please enter a valid email address';
+      }
+      if (!paymentScreenshotFile) {
+        newErrors.paymentScreenshot = 'Please upload the payment transaction screenshot after scanning the QR code';
       }
     }
 
@@ -302,10 +301,9 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
 
     setSubmitting(true);
     let resolvedCaseRef = '';
-    let resolvedCase = null;
 
     try {
-      // ── Step 1: Create case in DB & upload docs to Cloudinary ──
+      // Build multipart FormData with documents and payment screenshot
       const payload = new FormData();
       payload.append('serviceType', formData.serviceType);
       payload.append('propertyType', formData.propertyType);
@@ -317,6 +315,7 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
       payload.append('customerPhone', formData.customerPhone);
       payload.append('comments', formData.comments || '');
       payload.append('uploadedFilesCount', formData.uploadedFilesCount || 1);
+      payload.append('transactionId', transactionId || '');
 
       REQUIRED_DOC_CATEGORIES.forEach((cat) => {
         const catFileList = docFiles[cat.id] || [];
@@ -327,98 +326,34 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
         });
       });
 
+      // Append payment screenshot
+      if (paymentScreenshotFile) {
+        const customPaymentName = `PAYMENT_SCREENSHOT_${paymentScreenshotFile.name}`;
+        const renamedScreenshot = new File([paymentScreenshotFile], customPaymentName, { type: paymentScreenshotFile.type });
+        payload.append('documents', renamedScreenshot);
+        payload.append('paymentScreenshot', renamedScreenshot);
+      }
+
       const res = await adminApi.createClient(payload);
       if (res.success && res.case) {
         resolvedCaseRef = res.case.case_reference;
-        resolvedCase = res.case;
         setCaseId(resolvedCaseRef);
         if (typeof onCaseCreated === 'function') onCaseCreated(res.case);
       } else {
         resolvedCaseRef = `PS-${Math.floor(100000 + Math.random() * 900000)}`;
         setCaseId(resolvedCaseRef);
       }
-    } catch (err) {
-      console.error('Error posting case to server:', err);
-      resolvedCaseRef = `PS-${Math.floor(100000 + Math.random() * 900000)}`;
-      setCaseId(resolvedCaseRef);
-    }
 
-    // ── Step 2: Open Razorpay Payment Modal ──
-    try {
-      const scriptLoaded = await loadRazorpay();
-      if (!scriptLoaded) throw new Error('Razorpay SDK failed to load');
-
-      const orderRes = await paymentApi.createOrder({
-        caseReference: resolvedCaseRef,
-        customerName: formData.customerName,
-        customerEmail: formData.customerEmail,
-        customerPhone: formData.customerPhone
-      });
-
-      if (!orderRes.success) throw new Error(orderRes.message || 'Order creation failed');
-
-      await new Promise((resolve) => {
-        const options = {
-          key: orderRes.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID,
-          amount: orderRes.amount,
-          currency: orderRes.currency || 'INR',
-          name: 'Property Suraksha',
-          description: `Registration Fee — Case ${resolvedCaseRef}`,
-          image: '/logo.png',
-          order_id: orderRes.order.id,
-          prefill: {
-            name: formData.customerName,
-            email: formData.customerEmail,
-            contact: formData.customerPhone
-          },
-          theme: { color: '#C9A84C' },
-          modal: {
-            ondismiss: () => {
-              // Payment dismissed — still show success (case is saved)
-              setSubmitting(false);
-              setIsSubmitted(true);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              resolve();
-            }
-          },
-          handler: async (paymentResponse) => {
-            try {
-              const verifyRes = await paymentApi.verifyPayment({
-                razorpay_order_id: paymentResponse.razorpay_order_id,
-                razorpay_payment_id: paymentResponse.razorpay_payment_id,
-                razorpay_signature: paymentResponse.razorpay_signature,
-                caseReference: resolvedCaseRef
-              });
-              if (verifyRes.success) {
-                setPaymentId(paymentResponse.razorpay_payment_id);
-                setPaymentDone(true);
-              }
-            } catch (vErr) {
-              console.error('Payment verification error:', vErr);
-            } finally {
-              setSubmitting(false);
-              setIsSubmitted(true);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              resolve();
-            }
-          }
-        };
-
-        const rzp = new window.Razorpay(options);
-        rzp.on('payment.failed', (response) => {
-          console.error('Razorpay payment failed:', response.error);
-          setSubmitting(false);
-          setIsSubmitted(true);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          resolve();
-        });
-        rzp.open();
-      });
-    } catch (payErr) {
-      console.error('Razorpay integration error:', payErr);
-      setSubmitting(false);
       setIsSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error('Error posting case with payment screenshot:', err);
+      resolvedCaseRef = `PS-${Math.floor(100000 + Math.random() * 900000)}`;
+      setCaseId(resolvedCaseRef);
+      setIsSubmitted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -484,42 +419,67 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
             >
               <CheckCircle2 size={68} className="success-check-icon" />
             </motion.div>
-            <span className="success-tag">{paymentDone ? 'Payment Confirmed' : 'Request Received'}</span>
+            <span className="success-tag">Payment Submitted • Awaiting Admin Approval</span>
             <h2 className="success-case-title">Your Case Reference: {caseId}</h2>
             <p className="success-case-desc">
-              Thank you, <strong>{formData.customerName}</strong>. Our senior legal admin team has received your verification request for <strong>{formData.projectOrSurvey || 'your property'}</strong>.
+              Thank you, <strong>{formData.customerName}</strong>. We have received your property documents and payment proof for <strong>{formData.projectOrSurvey || 'your property'}</strong>.
             </p>
 
-            {paymentDone ? (
-              <div className="payment-success-badge">
-                <Receipt size={18} />
-                <span>Registration fee paid &nbsp;·&nbsp; Payment ID: <strong>{paymentId}</strong></span>
+            <div className="payment-pending-badge" style={{ 
+              background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)', 
+              border: '1.5px solid #d97706', 
+              color: '#92400e',
+              padding: '1.2rem 1.6rem',
+              borderRadius: '14px',
+              maxWidth: '640px',
+              boxShadow: '0 6px 20px rgba(217, 119, 6, 0.12)',
+              margin: '1.2rem auto 2.2rem',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '1rem',
+              textAlign: 'left'
+            }}>
+              <div style={{
+                background: '#d97706',
+                color: '#ffffff',
+                borderRadius: '50%',
+                padding: '0.45rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                marginTop: '0.1rem'
+              }}>
+                <Clock size={20} />
               </div>
-            ) : (
-              <div className="payment-pending-badge">
-                <AlertTriangle size={16} />
-                <span>Registration fee payment incomplete. Our team will contact you to complete payment.</span>
+              <div style={{ lineHeight: '1.55' }}>
+                <strong style={{ display: 'block', fontSize: '1rem', fontWeight: 800, color: '#78350f', marginBottom: '0.3rem' }}>
+                  Payment Under Admin Verification
+                </strong>
+                <span style={{ fontSize: '0.92rem', color: '#92400e' }}>
+                  Our senior finance & legal desk is verifying your uploaded transaction screenshot. Once approved, your case will be instantly assigned to a panel property advocate.
+                </span>
               </div>
-            )}
+            </div>
 
             <div className="success-next-steps">
               <h4>What Happens Next:</h4>
               <div className="next-step-row">
                 <span className="step-badge-num">1</span>
                 <div>
-                  <strong>Document Assessment:</strong> Our legal operations desk inspects the uploaded records.
+                  <strong>Admin Payment Approval:</strong> Our finance & verification desk verifies the transaction screenshot against UPI records.
                 </div>
               </div>
               <div className="next-step-row">
                 <span className="step-badge-num">2</span>
                 <div>
-                  <strong>Custom Quotation:</strong> You will receive a transparent quote via email & SMS within 2–4 hours.
+                  <strong>Lead Activation:</strong> Upon approval, your property lead is activated and listed in the New Clients queue.
                 </div>
               </div>
               <div className="next-step-row">
                 <span className="step-badge-num">3</span>
                 <div>
-                  <strong>Advocate Assignment:</strong> Upon quotation approval, a practicing property lawyer begins verification.
+                  <strong>Advocate Assignment:</strong> A practicing High Court / District property advocate begins examining your title documents.
                 </div>
               </div>
             </div>
@@ -912,11 +872,103 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
                     </p>
                   </div>
 
-                  <div className="intake-notice" style={{ background: 'linear-gradient(135deg,#fffbeb,#fef3c7)', borderColor: '#fbbf24' }}>
-                    <Receipt size={20} className="intake-shield" style={{ color: '#b45309' }} />
-                    <p style={{ color: '#78350f' }}>
-                      <strong>Registration Fee — ₹4999:</strong> After submitting, a secure Razorpay payment window will open to collect the one-time registration fee before we begin verification.
-                    </p>
+                  {/* SCANNER & PAYMENT PROOF UPLOAD SECTION */}
+                  <div className="scanner-payment-section">
+                    <div className="scanner-payment-header">
+                      <div className="scanner-badge">
+                        <QrCode size={16} />
+                        <span>UPI SCAN & PAY</span>
+                      </div>
+                      <h4>Scan QR & Upload Payment Screenshot</h4>
+                      <p>
+                        Please scan the official Property Suraksha UPI QR code to complete the verification registration fee (<strong>₹4999</strong>). After payment, upload your transaction screenshot below for Administrator approval.
+                      </p>
+                    </div>
+
+                    <div className="scanner-payment-body">
+                      {/* Left: QR Code Scanner Display */}
+                      <div className="scanner-display-card">
+                        <div className="scanner-image-wrapper">
+                          <img 
+                            src={scannerImg} 
+                            alt="Property Suraksha Payment QR Code" 
+                            className="scanner-qr-image" 
+                          />
+                        </div>
+                        <div className="scanner-details">
+                          <span className="scanner-verified-tag">
+                            <Check size={13} /> Official UPI Scanner
+                          </span>
+                          <span className="scanner-amount-label">Registration Fee: ₹4,999</span>
+                          <span className="scanner-helper-text">Accepts Google Pay, PhonePe, Paytm & all UPI Apps</span>
+                        </div>
+                      </div>
+
+                      {/* Right: Upload Payment Screenshot Form */}
+                      <div className="screenshot-upload-card">
+                        <div className="form-field">
+                          <label>UPI Transaction ID / UTR Number (Optional)</label>
+                          <input 
+                            type="text" 
+                            placeholder="e.g. 432198765432"
+                            value={transactionId}
+                            onChange={(e) => setTransactionId(e.target.value)}
+                          />
+                        </div>
+
+                        <div className={`form-field ${errors.paymentScreenshot ? 'field-error' : ''}`}>
+                          <label>Payment Screenshot *</label>
+                          <div className="screenshot-dropzone">
+                            <input 
+                              type="file" 
+                              id="payment-screenshot-input"
+                              accept="image/*,.pdf"
+                              style={{ display: 'none' }}
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  setPaymentScreenshotFile(file);
+                                  setPaymentScreenshotPreview(URL.createObjectURL(file));
+                                  if (errors.paymentScreenshot) {
+                                    setErrors(prev => ({ ...prev, paymentScreenshot: null }));
+                                  }
+                                }
+                              }}
+                            />
+                            <label htmlFor="payment-screenshot-input" className="screenshot-dropzone-label">
+                              {paymentScreenshotPreview ? (
+                                <div className="screenshot-preview-wrap">
+                                  <img src={paymentScreenshotPreview} alt="Screenshot Preview" className="screenshot-img-preview" />
+                                  <div className="screenshot-file-info">
+                                    <FileCheck size={16} color="#10b981" />
+                                    <span>{paymentScreenshotFile?.name}</span>
+                                    <span className="change-screenshot-link">Click to change</span>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="screenshot-empty-prompt">
+                                  <div className="upload-icon-circle">
+                                    <Upload size={22} />
+                                  </div>
+                                  <strong>Upload Payment Screenshot</strong>
+                                  <p>Select screenshot image (JPG, PNG) showing successful payment of ₹4,999</p>
+                                </div>
+                              )}
+                            </label>
+                          </div>
+                          {errors.paymentScreenshot && (
+                            <span className="field-error-msg">{errors.paymentScreenshot}</span>
+                          )}
+                        </div>
+
+                        <div className="approval-warning-notice">
+                          <Clock size={16} />
+                          <span>
+                            <strong>Admin Approval Required:</strong> Your case will be immediately submitted to the Administrator for screenshot verification. Once approved, it appears in New Clients for advocate assignment.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="step-nav-row">
@@ -933,7 +985,7 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
                         disabled={submitting}
                         className="btn-intake-submit"
                       >
-                        <span>{submitting ? 'Uploading & Preparing Payment...' : 'Submit & Pay Registration Fee (₹4999)'}</span>
+                        <span>{submitting ? 'Submitting & Uploading Proof...' : 'Submit Verification Request'}</span>
                         <ArrowRight size={18} />
                       </button>
                     </MagneticButton>

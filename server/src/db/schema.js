@@ -74,12 +74,17 @@ export const initSchema = async () => {
     ALTER TABLE cases ADD COLUMN IF NOT EXISTS certificate_uploaded_at TIMESTAMP WITH TIME ZONE;
     ALTER TABLE cases ADD COLUMN IF NOT EXISTS uploaded_documents JSONB DEFAULT '[]'::jsonb;
 
-    -- Razorpay payment tracking columns
+    -- Razorpay and Manual Payment tracking columns
     ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_status VARCHAR(50) DEFAULT 'pending';
     ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_id VARCHAR(255);
     ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_order_id VARCHAR(255);
     ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_amount NUMERIC(10,2);
     ALTER TABLE cases ADD COLUMN IF NOT EXISTS paid_at TIMESTAMP WITH TIME ZONE;
+    ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_screenshot_url TEXT;
+    ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_transaction_id VARCHAR(255);
+    ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_submitted_at TIMESTAMP WITH TIME ZONE;
+    ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_approval_status VARCHAR(50) DEFAULT 'pending'; -- 'pending', 'approved', 'rejected'
+    ALTER TABLE cases ADD COLUMN IF NOT EXISTS payment_approved_at TIMESTAMP WITH TIME ZONE;
 
     -- 4. Prepared Reports (Advocate review awaiting Admin Approval for client portal)
     CREATE TABLE IF NOT EXISTS prepared_reports (

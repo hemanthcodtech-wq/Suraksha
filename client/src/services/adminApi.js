@@ -151,6 +151,21 @@ export const adminApi = {
   getCustomerCases: async (email) => {
     const res = await fetch(`${API_BASE_URL}/admin/customer/cases/${encodeURIComponent(email)}`);
     return res.json();
+  },
+
+  // 7. Payment Verification by Admin (Scanner + Screenshot flow)
+  getPendingPayments: async () => {
+    const res = await fetch(`${API_BASE_URL}/admin/pending-payments`);
+    return res.json();
+  },
+
+  handlePaymentApproval: async (caseId, action, notes = '') => {
+    const res = await fetch(`${API_BASE_URL}/admin/payment-approval/${caseId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, notes })
+    });
+    return res.json();
   }
 };
 

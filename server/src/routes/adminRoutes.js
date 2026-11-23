@@ -22,7 +22,9 @@ import {
   sendCustomerOtp,
   verifyCustomerOtp,
   getClientCaseDetails,
-  getCustomerCasesByEmail
+  getCustomerCasesByEmail,
+  getPendingPaymentCases,
+  handlePaymentApprovalAction
 } from '../controllers/adminController.js';
 
 const router = express.Router();
@@ -33,9 +35,12 @@ router.get('/dashboard-stats', getDashboardStats);
 // 0. Admin Login (dynamic, DB-backed)
 router.post('/login', adminLogin);
 
-// 2. New Clients & Case Creation (supports document file uploads to Cloudinary)
+// 2. New Clients & Case Creation (supports document file uploads & payment screenshot to Cloudinary)
 router.get('/clients', getNewClients);
-router.post('/clients', uploadMiddleware.array('documents', 30), createClientCase);
+router.post('/clients', uploadMiddleware.fields([
+  { name: 'documents', maxCount: 30 },
+  { name: 'paymentScreenshot', maxCount: 1 }
+]), createClientCase);
 
 // 3. Advocates Assigned
 router.get('/assigned-cases', getAssignedCases);
@@ -64,5 +69,9 @@ router.post('/customer/send-otp', sendCustomerOtp);
 router.post('/customer/verify-otp', verifyCustomerOtp);
 router.get('/customer/case/:caseReference', getClientCaseDetails);
 router.get('/customer/cases/:email', getCustomerCasesByEmail);
+
+// 7. Payment Verifications & Admin Approval (Scanner + Screenshot Upload Flow)
+router.get('/pending-payments', getPendingPaymentCases);
+router.patch('/payment-approval/:caseId', handlePaymentApprovalAction);
 
 export default router;

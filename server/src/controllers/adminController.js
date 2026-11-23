@@ -15,7 +15,8 @@ export const getDashboardStats = async (req, res) => {
     const statsQuery = `
       SELECT 
         (SELECT COUNT(*) FROM cases) AS total_cases,
-        (SELECT COUNT(*) FROM cases WHERE status = 'New') AS new_clients_count,
+        (SELECT COUNT(*) FROM cases WHERE status = 'New' AND (payment_approval_status = 'approved' OR payment_approval_status IS NULL)) AS new_clients_count,
+        (SELECT COUNT(*) FROM cases WHERE payment_approval_status = 'pending') AS pending_payment_approvals_count,
         (SELECT COUNT(*) FROM cases WHERE status = 'Assigned' OR status = 'In Review') AS assigned_in_progress_count,
         (SELECT COUNT(*) FROM advocates WHERE status = 'Active') AS active_advocates_count,
         (SELECT COUNT(*) FROM prepared_reports WHERE approval_status = 'Pending Approval') AS pending_approvals_count,
@@ -57,7 +58,7 @@ export const getDashboardStats = async (req, res) => {
 // ==========================================
 export const getNewClients = async (req, res) => {
   try {
-    const { status } = req.query;
+    const { status, paymentApproval } = req.query;
     let sql = `
       SELECT 
         c.*,
@@ -68,10 +69,24 @@ export const getNewClients = async (req, res) => {
       LEFT JOIN advocates a ON c.assigned_advocate_id = a.id
     `;
     const params = [];
+    const conditions = [];
 
     if (status) {
-      sql += ` WHERE c.status = $1`;
       params.push(status);
+      conditions.push(`c.status = $${params.length}`);
+    }
+
+    if (paymentApproval) {
+      params.push(paymentApproval);
+      conditions.push(`c.payment_approval_status = $${params.length}`);
+    } else {
+      // By default for new verified leads, only show cases where payment has been approved
+      // (Unless client explicitly requests all or pending)
+      conditions.push(`(c.payment_approval_status = 'approved' OR c.payment_approval_status IS NULL)`);
+    }
+
+    if (conditions.length > 0) {
+      sql += ` WHERE ` + conditions.join(' AND ');
     }
 
     sql += ` ORDER BY c.created_at DESC`;
@@ -102,21 +117,54 @@ export const createClientCase = async (req, res) => {
 
     const caseReference = `PS-${Math.floor(100000 + Math.random() * 900000)}`;
 
-    // Process files uploaded via Multer to Cloudinary
     let uploadedDocs = [];
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
+    let paymentScreenshotUrl = null;
+
+    // Collect files whether multer processed them as fields (object) or array
+    let allFiles = [];
+    if (req.files) {
+      if (Array.isArray(req.files)) {
+        allFiles = req.files;
+      } else if (typeof req.files === 'object') {
+        Object.values(req.files).forEach(fieldFiles => {
+          if (Array.isArray(fieldFiles)) {
+            allFiles.push(...fieldFiles);
+          }
+        });
+      }
+    } else if (req.file) {
+      allFiles = [req.file];
+    }
+
+    if (allFiles.length > 0) {
+      for (const file of allFiles) {
         try {
+          const isScreenshot = file.fieldname === 'paymentScreenshot' || 
+            file.originalname.toLowerCase().includes('payment') || 
+            file.originalname.toLowerCase().includes('screenshot') || 
+            file.originalname.toLowerCase().includes('upi');
+
+          const folder = isScreenshot 
+            ? 'property_suraksha/payment_screenshots'
+            : 'property_suraksha/customer_documents';
+
           const uploadRes = await uploadToCloudinary(
             file.buffer,
             file.originalname,
-            'property_suraksha/customer_documents'
+            folder
           );
+
+          const fileUrl = uploadRes.secure_url || uploadRes.url;
+          if (file.fieldname === 'paymentScreenshot' || (!paymentScreenshotUrl && isScreenshot)) {
+            paymentScreenshotUrl = fileUrl;
+          }
+
           uploadedDocs.push({
             name: file.originalname,
-            url: uploadRes.secure_url || uploadRes.url,
+            url: fileUrl,
             uploadedAt: new Date().toISOString(),
-            size: file.size
+            size: file.size,
+            isPaymentScreenshot: isScreenshot
           });
         } catch (uploadErr) {
           console.error('Failed to upload file to Cloudinary:', uploadErr);
@@ -138,6 +186,8 @@ export const createClientCase = async (req, res) => {
       });
     }
 
+    const { transactionId } = req.body;
+
     const insertSQL = `
       INSERT INTO cases (
         case_reference,
@@ -152,8 +202,13 @@ export const createClientCase = async (req, res) => {
         client_notes,
         documents_count,
         uploaded_documents,
-        status
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 'New')
+        status,
+        payment_status,
+        payment_screenshot_url,
+        payment_transaction_id,
+        payment_approval_status,
+        payment_submitted_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 'New', 'pending', $13, $14, 'pending', CURRENT_TIMESTAMP)
       RETURNING *;
     `;
 
@@ -169,7 +224,9 @@ export const createClientCase = async (req, res) => {
       customerPhone,
       comments || '',
       uploadedDocs.length || (uploadedFilesCount ? Number(uploadedFilesCount) : 1),
-      JSON.stringify(uploadedDocs)
+      JSON.stringify(uploadedDocs),
+      paymentScreenshotUrl,
+      transactionId || ''
     ];
 
     const result = await query(insertSQL, values);
@@ -1143,5 +1200,83 @@ export const getCustomerCasesByEmail = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// ==========================================
+// 7. PAYMENT APPROVAL / REJECTION WORKFLOW
+// ==========================================
+export const getPendingPaymentCases = async (req, res) => {
+  try {
+    const sql = `
+      SELECT 
+        c.*,
+        a.name AS advocate_name
+      FROM cases c
+      LEFT JOIN advocates a ON c.assigned_advocate_id = a.id
+      WHERE c.payment_approval_status = 'pending'
+      ORDER BY c.payment_submitted_at DESC NULLS LAST, c.created_at DESC;
+    `;
+    const result = await query(sql);
+    res.json({ success: true, cases: result.rows });
+  } catch (error) {
+    console.error('Error fetching pending payment cases:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const handlePaymentApprovalAction = async (req, res) => {
+  try {
+    const { caseId } = req.params;
+    const { action, notes } = req.body; // action: 'APPROVE' | 'REJECT'
+
+    if (action === 'APPROVE') {
+      const updateSql = `
+        UPDATE cases
+        SET 
+          payment_approval_status = 'approved',
+          payment_status = 'paid',
+          payment_approved_at = CURRENT_TIMESTAMP,
+          paid_at = CURRENT_TIMESTAMP
+        WHERE id = $1
+        RETURNING *;
+      `;
+      const result = await query(updateSql, [caseId]);
+      if (result.rowCount === 0) {
+        return res.status(404).json({ success: false, message: 'Case not found' });
+      }
+
+      const approvedCase = result.rows[0];
+
+      return res.json({
+        success: true,
+        message: `Payment for Case ${approvedCase.case_reference} verified & approved! Lead is now active in New Clients.`,
+        case: approvedCase
+      });
+    } else {
+      const updateSql = `
+        UPDATE cases
+        SET 
+          payment_approval_status = 'rejected',
+          payment_status = 'rejected',
+          client_notes = COALESCE(client_notes, '') || '\n[Payment Rejected: ' || $2 || ']'
+        WHERE id = $1
+        RETURNING *;
+      `;
+      const result = await query(updateSql, [caseId, notes || 'Invalid payment screenshot or unverified transaction ID']);
+      if (result.rowCount === 0) {
+        return res.status(404).json({ success: false, message: 'Case not found' });
+      }
+
+      return res.json({
+        success: true,
+        message: `Payment for Case ${result.rows[0].case_reference} has been rejected.`,
+        case: result.rows[0]
+      });
+    }
+  } catch (error) {
+    console.error('Error handling payment approval action:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 
 

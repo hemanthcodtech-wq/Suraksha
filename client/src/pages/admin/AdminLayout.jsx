@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
+  CreditCard,
   UserPlus, 
   Briefcase, 
   UserCheck, 
@@ -19,6 +20,7 @@ export const AdminLayout = () => {
   const navigate = useNavigate();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [badgeCounts, setBadgeCounts] = useState({
+    pendingPayments: 0,
     newClients: 0,
     pendingApprovals: 0
   });
@@ -35,6 +37,7 @@ export const AdminLayout = () => {
         const statsRes = await adminApi.getDashboardStats().catch(() => ({ stats: {} }));
         if (statsRes.stats) {
           setBadgeCounts({
+            pendingPayments: Number(statsRes.stats.pending_payment_approvals_count) || 0,
             newClients: Number(statsRes.stats.new_clients_count) || 0,
             pendingApprovals: Number(statsRes.stats.pending_approvals_count) || 0
           });
@@ -87,6 +90,20 @@ export const AdminLayout = () => {
           >
             <LayoutDashboard size={20} />
             <span>1. Dashboard</span>
+          </NavLink>
+
+          <NavLink 
+            to="/admin/payments" 
+            onClick={() => setMobileNavOpen(false)}
+            className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+          >
+            <CreditCard size={20} />
+            <span>Payment Approvals</span>
+            {badgeCounts.pendingPayments > 0 && (
+              <span className="nav-badge-pill gold" style={{ background: '#f59e0b', color: '#000' }}>
+                {badgeCounts.pendingPayments}
+              </span>
+            )}
           </NavLink>
 
           <NavLink 

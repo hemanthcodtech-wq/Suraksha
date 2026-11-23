@@ -7,7 +7,8 @@ import {
   FileCheck2, 
   ChevronRight, 
   CheckCircle, 
-  RefreshCw 
+  RefreshCw,
+  CreditCard
 } from 'lucide-react';
 import { SkeletonKpiCard, SkeletonTableRows } from '../../components/common/Skeleton';
 import adminApi from '../../services/adminApi';
@@ -96,6 +97,19 @@ export const AdminDashboard = () => {
                 <span className="kpi-meta highlight">Pending Advocate Assignment</span>
               </div>
             </div>
+
+            <Link to="/admin/payments" className="admin-kpi-card" style={{ textDecoration: 'none', border: stats.pending_payment_approvals_count > 0 ? '1px solid #f59e0b' : undefined }}>
+              <div className="kpi-icon-wrap" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b' }}>
+                <CreditCard size={24} />
+              </div>
+              <div className="kpi-info">
+                <span className="kpi-label">Pending Payment Approvals</span>
+                <h3 className="kpi-value" style={{ color: stats.pending_payment_approvals_count > 0 ? '#fbbf24' : undefined }}>
+                  {stats.pending_payment_approvals_count || 0}
+                </h3>
+                <span className="kpi-meta" style={{ color: '#f59e0b' }}>Scanner Screenshot Proofs</span>
+              </div>
+            </Link>
 
             <div className="admin-kpi-card">
               <div className="kpi-icon-wrap emerald">

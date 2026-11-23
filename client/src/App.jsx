@@ -23,6 +23,7 @@ import AdminNewClients from './pages/admin/AdminNewClients';
 import AdminAssignedAdvocates from './pages/admin/AdminAssignedAdvocates';
 import AdminAdvocatesCreation from './pages/admin/AdminAdvocatesCreation';
 import AdminApprovals from './pages/admin/AdminApprovals';
+import AdminPaymentApprovals from './pages/admin/AdminPaymentApprovals';
 import AdvocateLayout from './pages/advocate/AdvocateLayout';
 import AdvocateDashboard from './pages/advocate/AdvocateDashboard';
 import AdvocateAssignedProjects from './pages/advocate/AdvocateAssignedProjects';
@@ -103,6 +104,7 @@ const Layout = () => {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="payments" element={<AdminPaymentApprovals />} />
           <Route path="new-clients" element={<AdminNewClients />} />
           <Route path="assigned-advocates" element={<AdminAssignedAdvocates />} />
           <Route path="advocates-creation" element={<AdminAdvocatesCreation />} />

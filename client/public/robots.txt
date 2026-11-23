@@ -1,8 +1,9 @@
 # Property Suraksha Production Robots.txt
-# https://www.propertysuraksha.in/
+# https://propertysuraksh.com/
 
 User-agent: *
 Allow: /
+Allow: /home
 Allow: /about
 Allow: /services
 Allow: /how-it-works
@@ -25,4 +26,4 @@ Disallow: /customer
 Disallow: /api/
 
 # Sitemaps
-Sitemap: https://www.propertysuraksha.in/sitemap.xml
+Sitemap: https://propertysuraksh.com/sitemap.xml

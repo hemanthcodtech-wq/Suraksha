@@ -943,6 +943,125 @@ export const GetStarted = ({ initialCustomer, onCaseCreated, isCustomerPortal = 
             </AnimatePresence>
           </form>
         )}
+
+        {/* Informative & Trust Content Below Form (Hidden in Customer Portal mode) */}
+        {!isCustomerPortal && (
+          <div className="verification-bottom-content">
+            {/* 1. Value / Trust Highlights */}
+            <div className="bottom-trust-grid">
+              <div className="bottom-trust-card">
+                <div className="bottom-trust-icon-box">
+                  <Scale size={24} />
+                </div>
+                <div>
+                  <h4>Bar-Admitted Real Estate Advocates</h4>
+                  <p>Every submitted title is scrutinized by seasoned High Court & District property legal specialists, never algorithms or automated bots.</p>
+                </div>
+              </div>
+
+              <div className="bottom-trust-card">
+                <div className="bottom-trust-icon-box">
+                  <ShieldCheck size={24} />
+                </div>
+                <div>
+                  <h4>30-Year Comprehensive Lineage Check</h4>
+                  <p>Detailed verification of parent deeds, Encumbrance Certificates (EC), revenue patta, khata records, and court index litigation.</p>
+                </div>
+              </div>
+
+              <div className="bottom-trust-card">
+                <div className="bottom-trust-icon-box">
+                  <FileText size={24} />
+                </div>
+                <div>
+                  <h4>Certified Legal Opinion Report</h4>
+                  <p>Receive an advocate-signed written opinion with clear risk categorization (Low / Moderate / High) and actionable purchase advisory.</p>
+                </div>
+              </div>
+
+              <div className="bottom-trust-card">
+                <div className="bottom-trust-icon-box">
+                  <Clock size={24} />
+                </div>
+                <div>
+                  <h4>Fast 3–5 Day Turnaround</h4>
+                  <p>Live progress tracking directly from your client dashboard with dedicated coordinator support and express options available.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Verification Process Roadmap */}
+            <div className="bottom-process-section">
+              <div className="bottom-section-header">
+                <span className="bottom-badge">How It Works</span>
+                <h3 className="bottom-title">Your 4-Step Verification Journey</h3>
+                <p className="bottom-subtitle">Transparent legal due diligence engineered to protect your capital and eliminate real-estate blindspots.</p>
+              </div>
+
+              <div className="bottom-steps-grid">
+                <div className="bottom-step-item">
+                  <div className="bottom-step-number">01</div>
+                  <h5>Submit Property Intake</h5>
+                  <p>Select service type, enter property location, and share seller/builder details via the intake form above.</p>
+                </div>
+                <div className="bottom-step-item">
+                  <div className="bottom-step-number">02</div>
+                  <h5>Upload Title Documents</h5>
+                  <p>Upload sale deeds, layout sanctions, EC, or tax receipts into our 256-bit encrypted security vault.</p>
+                </div>
+                <div className="bottom-step-item">
+                  <div className="bottom-step-number">03</div>
+                  <h5>Advocate Title Scrutiny</h5>
+                  <p>Assigned legal counsel verifies revenue records, sub-registrar registers, and identifies potential encumbrances.</p>
+                </div>
+                <div className="bottom-step-item">
+                  <div className="bottom-step-number">04</div>
+                  <h5>Download Certified Report</h5>
+                  <p>Get your final advocate-signed legal opinion report and direct phone consult before releasing token money.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Frequently Asked Questions */}
+            <div className="bottom-faq-section">
+              <div className="bottom-section-header">
+                <span className="bottom-badge">Help & Guidance</span>
+                <h3 className="bottom-title">Frequently Asked Questions</h3>
+              </div>
+
+              <div className="bottom-faq-grid">
+                <div className="bottom-faq-item">
+                  <h6>What if I don't have all documents right now?</h6>
+                  <p>You can submit whatever documents you currently have (like draft sale agreements or survey numbers). Your assigned advocate will review them and advise on which additional records need to be obtained from the seller.</p>
+                </div>
+                <div className="bottom-faq-item">
+                  <h6>How do I track my verification status?</h6>
+                  <p>Immediately after submission, you will receive a unique Case Reference ID (e.g. PS-102941) which you can track in real-time by logging into the Client Portal using your mobile number or email.</p>
+                </div>
+                <div className="bottom-faq-item">
+                  <h6>Are my uploaded property documents safe?</h6>
+                  <p>Yes. All uploaded files are protected with 256-bit enterprise SSL encryption and accessible only by the assigned legal team handling your case. We never share or monetize your private documents.</p>
+                </div>
+                <div className="bottom-faq-item">
+                  <h6>Can I speak to the advocate directly?</h6>
+                  <p>Yes! Every verified case includes legal consultation and dedicated coordinator support to walk you through the advocate's findings, title risk score, and clauses.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Support Helpline Banner */}
+            <div className="bottom-helpline-card">
+              <div className="bottom-helpline-info">
+                <h4>Need assistance or have urgent registration deadlines?</h4>
+                <p>Speak directly with our senior legal intake team for instant clarification or express turnaround.</p>
+              </div>
+              <a href="tel:+917989938718" className="bottom-helpline-btn">
+                <Phone size={18} />
+                <span>Call +91 79899 38718</span>
+              </a>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

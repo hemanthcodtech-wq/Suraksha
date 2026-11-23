@@ -865,3 +865,248 @@
   color: #92400e;
 }
 
+/* ── Verification Bottom Content (Below Form) ── */
+.verification-bottom-content {
+  margin-top: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* 1. Bottom Trust Grid */
+.bottom-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.bottom-trust-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  box-shadow: 0 4px 15px rgba(11, 45, 82, 0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.bottom-trust-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(11, 45, 82, 0.08);
+}
+
+.bottom-trust-icon-box {
+  background: rgba(212, 175, 55, 0.12);
+  color: #D4AF37;
+  padding: 0.85rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bottom-trust-card h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #051426;
+  margin: 0 0 0.35rem 0;
+}
+
+.bottom-trust-card p {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* 2. Process Section */
+.bottom-process-section {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 15px rgba(11, 45, 82, 0.03);
+}
+
+.bottom-section-header {
+  text-align: center;
+  margin-bottom: 2.2rem;
+}
+
+.bottom-badge {
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #D4AF37;
+  background: rgba(212, 175, 55, 0.12);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
+}
+
+.bottom-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #051426;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.bottom-subtitle {
+  font-size: 0.95rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.bottom-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.bottom-step-item {
+  background: #f8fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 12px;
+  padding: 1.5rem 1.2rem;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.bottom-step-item:hover {
+  background: #ffffff;
+  border-color: #D4AF37;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.12);
+}
+
+.bottom-step-number {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #cbd5e1;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.bottom-step-item h5 {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #0B2D52;
+  margin: 0 0 0.4rem 0;
+}
+
+.bottom-step-item p {
+  font-size: 0.82rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 3. FAQ Section */
+.bottom-faq-section {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+}
+
+.bottom-faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.bottom-faq-item {
+  background: #f8fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 12px;
+  padding: 1.4rem;
+}
+
+.bottom-faq-item h6 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #051426;
+  margin: 0 0 0.5rem 0;
+}
+
+.bottom-faq-item p {
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* 4. Helpline Banner */
+.bottom-helpline-card {
+  background: linear-gradient(135deg, #051426 0%, #0B2D52 100%);
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(5, 20, 38, 0.2);
+}
+
+.bottom-helpline-info h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.35rem 0;
+}
+
+.bottom-helpline-info p {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.bottom-helpline-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #D4AF37;
+  color: #051426;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+.bottom-helpline-btn:hover {
+  background: #ebd37d;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 860px) {
+  .bottom-trust-grid,
+  .bottom-faq-grid,
+  .bottom-steps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-helpline-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.8rem;
+  }
+
+  .bottom-helpline-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+

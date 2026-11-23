@@ -6,89 +6,96 @@
 
   <!-- Core Landing & Verification Services -->
   <url>
-    <loc>https://www.propertysuraksha.in/</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://propertysuraksh.com/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://www.propertysuraksha.in/services</loc>
-    <lastmod>2026-10-18</lastmod>
+    <loc>https://propertysuraksh.com/get-started</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://propertysuraksh.com/home</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://www.propertysuraksha.in/how-it-works</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.propertysuraksha.in/get-started</loc>
-    <lastmod>2026-10-18</lastmod>
+    <loc>https://propertysuraksh.com/services</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://www.propertysuraksha.in/about</loc>
-    <lastmod>2026-10-18</lastmod>
+    <loc>https://propertysuraksh.com/how-it-works</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://propertysuraksh.com/about</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.propertysuraksha.in/contact</loc>
-    <lastmod>2026-10-18</lastmod>
+    <loc>https://propertysuraksh.com/contact</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 
   <!-- User Portal Entry Points -->
   <url>
-    <loc>https://www.propertysuraksha.in/login</loc>
-    <lastmod>2026-10-18</lastmod>
+    <loc>https://propertysuraksh.com/login</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://www.propertysuraksha.in/signup</loc>
-    <lastmod>2026-10-18</lastmod>
+    <loc>https://propertysuraksh.com/signup</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <!-- Policies, Legal Standards & Compliance -->
   <url>
-    <loc>https://www.propertysuraksha.in/advocate-policy</loc>
-    <lastmod>2026-10-18</lastmod>
+    <loc>https://propertysuraksh.com/advocate-policy</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://www.propertysuraksha.in/privacy</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <loc>https://propertysuraksh.com/privacy</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://www.propertysuraksha.in/terms</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <loc>https://propertysuraksh.com/terms</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://www.propertysuraksha.in/refund</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <loc>https://propertysuraksh.com/refund</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
 </urlset>

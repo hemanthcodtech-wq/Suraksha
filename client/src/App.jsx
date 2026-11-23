@@ -16,7 +16,6 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import RefundPolicy from './pages/RefundPolicy';
 import CustomCursor from './components/animation/CustomCursor';
-import SplashScreen from './components/animation/SplashScreen';
 import { luxuryEasing } from './components/animation/motionVariants';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -68,7 +67,8 @@ const PublicAnimatedRoutes = () => {
         className="page-transition-wrapper"
       >
         <Routes location={location}>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<GetStarted />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
@@ -84,7 +84,7 @@ const PublicAnimatedRoutes = () => {
           <Route path="/refund" element={<RefundPolicy />} />
           
           {/* Fallback */}
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<GetStarted />} />
         </Routes>
       </motion.div>
     </AnimatePresence>
@@ -155,7 +155,6 @@ const Layout = () => {
 export function App() {
   return (
     <BrowserRouter>
-      <SplashScreen />
       <ScrollToTop />
       <Layout />
     </BrowserRouter>
